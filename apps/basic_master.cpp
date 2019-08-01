@@ -459,10 +459,13 @@ namespace apps {
 	
 	cppdb::session &basic_master::sql()
 	{
-		if(!sql_->is_open())
+		if(!sql_->is_open()) {
 			sql_->open(conn_str_);
+			if(!conn_str_.compare(0, 6, "mysql:")) {
+				*sql_ << "SET NAMES utf8" << cppdb::exec;
+			}
+		}
 		return *sql_;
 	}
-
 
 }

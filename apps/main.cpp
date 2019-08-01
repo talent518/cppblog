@@ -7,11 +7,18 @@
 #include <cppcms/service.h>
 #include <cppcms/applications_pool.h>
 #include <cppcms/url_mapper.h>
+#include <cppcms/http_request.h>
 #include <cppcms/http_response.h>
 #include <cppcms/json.h>
 
 #include <iostream>
+#include <ctime>
 
+std::string strtime(time_t timep) {
+	char tmp[64];
+	strftime(tmp, sizeof(tmp), "%Y-%m-%d %H:%M:%S",localtime(&timep));
+	return tmp;
+}
 
 class blog : public cppcms::application{
 public:
@@ -46,17 +53,35 @@ public:
 	}
 	virtual void main(std::string path)
 	{
+		clock_t start = std::clock();
+		time_t t = time(NULL);
+
 		try {
+			response().status(cppcms::http::response::ok);
 			cppcms::application::main(path);
 		}
 		catch(apps::database_version_error const &e) {
 			response().set_redirect_header(url("/config/version"));
-			return;
 		}
 		catch(apps::database_is_not_configured_error const &e) {
 			response().set_redirect_header(url("/config"));
-			return;
 		}
+
+		if(request().query_string().length()) {
+			path += "?" + request().query_string();
+		}
+
+		// print access log
+
+		std::cout << request().remote_addr(); // IP
+		std::cout << " " << strtime(t); // TIME
+		std::cout << " " << request().request_method(); // METHOD
+		std::cout  << " " << path << " " << request().server_protocol(); // URI
+		std::cout << " " << request().content_length(); // LENGTH
+		std::cout << " " << (double)(std::clock() - start)/CLOCKS_PER_SEC; // RUN TIME
+		std::cout << " \"" << response().get_header("Status") << "\""; // STATUS
+		std::cout << " \"" << request().http_user_agent() << "\"";
+		std::cout << std::endl; // USER-AGENT
 	}
 };
 
