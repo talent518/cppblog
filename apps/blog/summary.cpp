@@ -15,7 +15,7 @@ summary::summary(cppcms::service &s) : master(s)
 	mapper().assign("/");
 	dispatcher().assign("/?",&summary::all,this);
 
-	mapper().assign("/from/{1}");
+	mapper().assign("from", "/from/{1}");
 	dispatcher().assign("/from/(\\d+)/?",&summary::all,this,1);
 
 	mapper().assign("category","/cat/{1}");
