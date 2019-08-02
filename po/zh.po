@@ -537,7 +537,13 @@ msgstr "您确认要删除该用户吗？"
 
 #: views/admins/master.tmpl:19
 msgid "<!-- tinymc defaults options -->"
-msgstr "<script src=\"{1}/tinymce/langs/zh_CN.js\" type=\"text/javascript\"></script><script type=\"text/javascript\">tinymce.overrideDefaults({language:'zh_CN'});</script>"
+msgstr "<script src=\"{1}/tinymce/langs/zh_CN.js\" type=\"text/javascript\"></script><script type=\"text/javascript\">tinymce.overrideDefaults({{language:'zh_CN'}});</script>"
+
+msgid "Duplicate"
+msgstr "已重复"
+
+msgid "Total {1} pages, total {2} records."
+msgstr "共 {1} 页，共 {2} 记录。"
 
 # Please translate LANG as native name of language, for example for French -- `Français'
 #~ msgid "LANG"

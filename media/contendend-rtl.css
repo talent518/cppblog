@@ -81,3 +81,6 @@ blockquote, pre {
 #langlist {
 	text-align: left;
 }
+
+.multi-page .desc{float:left;}
+

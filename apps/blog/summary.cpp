@@ -48,7 +48,6 @@ void summary::category(std::string id,std::string page)
 
 void summary::prepare(int cat_id,int page)
 {
-	static const int page_size = 5;
 	cppdb::result r;
 
 	std::ostringstream key;
@@ -61,6 +60,9 @@ void summary::prepare(int cat_id,int page)
 	
 	data::blog::summary c;
 	
+	c.page_size = 10;
+	c.page = page;
+
 	if(cat_id != 0) {
 		r = sql() << "SELECT name FROM cats WHERE id=?" << cat_id << cppdb::row;
 		if(r.empty()) {
@@ -68,7 +70,12 @@ void summary::prepare(int cat_id,int page)
 			return;
 		}
 		r >> c.category_name;
+
+		sql() << "SELECT COUNT(post_id) FROM post2cat WHERE cat_id=? AND is_open=1" << cat_id << cppdb::row >> c.counts;
+
+		c.calc_pages();
 		c.id = cat_id;
+
 		r = sql() <<
 			"SELECT posts.id,users.username,posts.title, "
 			"	posts.abstract, length(posts.content), "
@@ -80,9 +87,13 @@ void summary::prepare(int cat_id,int page)
 			"	AND post2cat.is_open=1 "
 			"ORDER BY post2cat.publish DESC "
 			"LIMIT ? OFFSET ?" 
-			<< cat_id << (page_size + 1) << (page * page_size);
-	}
-	else {
+			<< cat_id << c.page_size << (page * c.page_size);
+	} else {
+		sql() << "SELECT COUNT(id) FROM posts" << cppdb::row >> c.counts;
+
+		c.calc_pages();
+		c.id = 0;
+
 		r = sql() <<
 			"SELECT posts.id,users.username,posts.title, "
 			"	posts.abstract, length(posts.content), "
@@ -93,23 +104,15 @@ void summary::prepare(int cat_id,int page)
 			"WHERE	posts.is_open=1 "
 			"ORDER BY posts.publish DESC "
 			"LIMIT ? OFFSET ? " 
-			<< (page_size + 1) << (page * page_size);
+			<< c.page_size << (page * c.page_size);
 	}
 
-
-	c.next_page = page + 1;
-	c.page = page;
-	c.prev_page = page > 0 ? page - 1 : 0;
-
-	c.posts.reserve(page_size);
+	c.posts.reserve(c.page_size);
 
 	int current_pos = 0;
 	while(r.next()) {
-		if(current_pos >= page_size) {
-			c.next_page = page + 1;
-			break;
-		}
-		c.posts.resize(current_pos + 1);
+		current_pos ++;
+		c.posts.resize(current_pos);
 		data::blog::post_content &cur = c.posts.back();
 		int content_size = 0;
 		std::tm published=std::tm();
@@ -117,7 +120,6 @@ void summary::prepare(int cat_id,int page)
 			>> published >> cur.comment_count;
 		cur.has_content = content_size != 0;
 		cur.published = mktime(&published);
-		current_pos ++;
 		std::ostringstream ss;
 		ss << "post_" << cur.id;
 		cache().add_trigger(ss.str());

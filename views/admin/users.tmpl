@@ -1,6 +1,6 @@
 <% c++ #include "data/admin/users.h" %>
 <% skin admin_skin %>
-<% view users uses data::admin::users extends master %>
+<% view user_login uses data::admin::user_login extends master %>
 <% template master_content() %>
 <div id="form" class="user-login">
 <h2><% gt "User login" %></h2>
@@ -11,7 +11,7 @@
 <% end %>
 <% end view %>
 
-<% view useradd uses data::admin::user extends master %>
+<% view useradd uses data::admin::user_one extends master %>
 <% template master_content() %>
 <div id="form">
 <h2><% gt "Add user" %></h2>
@@ -22,7 +22,7 @@
 <% end %>
 <% end view %>
 
-<% view user uses data::admin::user extends master %>
+<% view user uses data::admin::user_one extends master %>
 <% template master_content() %>
 <div id="form">
 <h2><% gt "Edit user {1}" using id %></h2>
@@ -43,19 +43,7 @@
 		<div class="item"><%= user.id %> <a href="<% url "/admin/users" using user.id %>"><%= user.username %></a><% if ( user.id != content.loginId ) %> <a href="<% url "/admin/users/del" using user.id %>" onclick="return confirm('<% gt "Are you sure you want to delete this user?" %>');"><% gt "Delete" %></a><% end %></div>
 	<% end %>
 
-	<div>
-	<% if page %>
-		<p class="prevpage">
-			<a href="<% url "/admin/users/list" using prev_page  %>"><% gt "previous page" %></a>
-		</p>
-	<% end %>
-	<% if next_page %>
-		<p class="nextpage">
-			<a href="<% url "/admin/users/list" using next_page  %>"><% gt "next page" %></a>
-		</p>
-	<% end %>
-		<div style="clear: both"></div>
-	</div>
+	<% c++ out() << content.multi_page("/admin/users/list"); %>
 <%end%>
 </div>
 

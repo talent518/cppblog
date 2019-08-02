@@ -4,7 +4,7 @@
 
 namespace data {
 	namespace admin {
-		struct users : public master {
+		struct user_login : public master {
 			struct login_form : public cppcms::form {
 				cppcms::widgets::text username;
 				cppcms::widgets::password password;
@@ -27,7 +27,7 @@ namespace data {
 			login_form login;
 		};
 
-		struct user : public master {
+		struct user_one : public master {
 			struct user_form : public cppcms::form {
 				cppcms::widgets::text username;
 				cppcms::widgets::text password;
@@ -61,10 +61,6 @@ namespace data {
 		};
 
 		struct userlist : public master {
-			int prev_page;
-			int page;
-			int next_page;
-
 			std::vector<user_content> users;
 		};
 	}

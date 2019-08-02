@@ -24,9 +24,10 @@ namespace blog {
 		struct cat : public cppcms::serializable { 
 			int id;
 			std::string name; 
+			int posts;
 			void serialize(cppcms::archive &a)
 			{
-				a & id & name;
+				a & id & name & posts;
 			}
 		};
 

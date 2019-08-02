@@ -94,7 +94,7 @@
 <h2><% gt "Categories" %></h2>
 	<ul>
 	<% item %>
-		<li><a href="<% url "/blog/summary/category" using cat.id %>"><%= cat.name %></a></li>
+		<li><span><%= cat.posts %></span><a href="<% url "/blog/summary/category" using cat.id %>"><%= cat.name %></a></li>
 	<%end%>
 	</ul>
 <% end %>

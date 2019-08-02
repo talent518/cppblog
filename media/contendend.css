@@ -246,3 +246,9 @@ h1.categorytitle {
 	border-bottom:none;
 }
 
+#sidecontent li > span {float:right;}
+
+.multi-page {line-height:20px;margin:15px 0;}
+.multi-page .desc{float:right;}
+.multi-page .page{margin-right:5px;}
+

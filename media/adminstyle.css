@@ -159,3 +159,8 @@ h4 {font-size:100%;}
 .userlist > .item > a {
 	margin-left:20px;
 }
+
+.multi-page {line-height:20px;margin-top:5px;}
+.multi-page .desc{display:block;}
+.multi-page .page{margin-right:5px;}
+

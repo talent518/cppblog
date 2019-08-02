@@ -53,12 +53,13 @@ void master::load_sidebar(data::blog::master &c)
 	}
 	
 	r=sql()<<
-		"SELECT id,name "
-		"FROM	cats";
+		"SELECT a.id,a.name,COUNT(b.post_id) "
+		"FROM	cats a LEFT JOIN post2cat b ON a.id=b.cat_id AND b.is_open=1 GROUP BY a.id";
 	c.sidebar.cats.reserve(16);
 	while(r.next()) {
 		c.sidebar.cats.resize(c.sidebar.cats.size()+1);
-		r >> c.sidebar.cats.back().id >> c.sidebar.cats.back().name;
+		data::blog::sidebar_info::cat &cat = c.sidebar.cats.back();
+		r >> cat.id >> cat.name >> cat.posts;
 	}
 
 	cache().add_trigger("cats");

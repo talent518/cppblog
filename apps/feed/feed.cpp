@@ -46,6 +46,7 @@ namespace feed {
 	}
 	void feed_master::posts()
 	{
+		response().set_content_header("text/xml");
 		if(cache().fetch_page("rss_posts"))
 			return;
 		cache().add_trigger("cat_0");
@@ -70,13 +71,13 @@ namespace feed {
 			cache().add_trigger(ss.str());
 		}
 		basic_master::prepare(c);
-		response().set_content_header("text/xml");
 		render("feed","posts",c);
 		cache().store_page("rss_posts");
 
 	}
 	void feed_master::cats(std::string sid)
 	{
+		response().set_content_header("text/xml");
 		std::string key = "rss_" + sid;
 		if(cache().fetch_page(key))
 			return;
@@ -116,7 +117,6 @@ namespace feed {
 			cache().add_trigger(ss.str());
 		}
 		basic_master::prepare(c);
-		response().set_content_header("text/xml");
 		render("feed","posts",c);
 		cache().store_page(key);
 	}

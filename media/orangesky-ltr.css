@@ -846,3 +846,10 @@ margin-top:-35px;
 #footerdesign {
 	float:left;
 }
+
+#sidecontent li > span {float:right;}
+
+.multi-page {line-height:20px;margin:15px 0;}
+.multi-page .desc{float:right;}
+.multi-page .page{margin-right:5px;}
+

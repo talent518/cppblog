@@ -31,27 +31,11 @@
                         <a href="<% url "/blog/post" using post.id %>#more"><% gt "more..." %></a>
                 <% end %>
 	<% end %>
-	<div>
-	<% if page %>
-                <p class="prevpage">
-			<% if id %>
-	                        <a href="<% url "category" using id,prev_page  %>"><% gt "next page" %></a>
-			<% else %>
-	                        <a href="<% url "." using prev_page  %>"><% gt "previous page" %></a>
-			<% end %>
-                </p>
-        <% end %>
-	<% if next_page %>
-                <p class="nextpage">
-			<% if id %>
-	                        <a href="<% url "category" using id,next_page  %>"><% gt "next page" %></a>
-			<% else %>
-	                        <a href="<% url "." using next_page  %>"><% gt "next page" %></a>
-			<% end %>
-                </p>
-        <% end %>
-		<div style="clear: both"></div>
-	</div>
+	<% if id %>
+		<% c++ out() << content.multi_page("category", content.id); %>
+	<% else %>
+		<% c++ out() << content.multi_page("category"); %>
+	<% end %>
 	
 <% empty %>
 	<% if not empty category_name %>

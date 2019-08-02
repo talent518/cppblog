@@ -2,6 +2,7 @@
 #include <cppcms/view.h>
 #include <booster/function.h>
 #include <cppcms/serialization.h>
+#include <math.h>
 
 namespace cppcms {
 	namespace json {
@@ -29,6 +30,19 @@ namespace data {
 		booster::function<std::string(std::string const &)> markdown2html;
 		booster::function<std::string(std::string const &)> xss;
 		std::string (*latex)(std::string const &);
+
+		ulong counts;
+		uint page_size;
+		long page;
+		long pages;
+
+		void calc_pages() {
+			pages = ceil((double) counts / (double) page_size);
+			page = page < 0 ? 0 : (page >= pages ? pages - 1 : page);
+		}
+
+		std::string multi_page(std::string const &u);
+		std::string multi_page(std::string const &u, int i);
 	};
 
 	void init_tex_filer(cppcms::json::value const &v);

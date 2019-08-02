@@ -853,3 +853,9 @@ margin-top:-35px;
         float:left;
 }
 
+#sidecontent li > span {float:left;}
+
+.multi-page {line-height:20px;margin:15px 0;}
+.multi-page .desc{float:left;}
+.multi-page .page{margin-right:5px;}
+

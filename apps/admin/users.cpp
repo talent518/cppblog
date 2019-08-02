@@ -32,17 +32,22 @@ users::users(cppcms::service &s) : master(s)
 
 void users::add()
 {
-	data::admin::user c;
+	data::admin::user_one c;
 
 	if(request().request_method()=="POST") {
 		c.user.load(context());
 		if(c.user.validate()) {
-			cppdb::transaction tr(sql());
-			sql()<<"INSERT INTO users(username,password) values(?,?)" 
-				<< c.user.username.value() << c.user.password.value() << cppdb::exec;
-			tr.commit();
-			response().set_redirect_header(url("/admin/users/list"));
-			return;
+			try {
+				cppdb::transaction tr(sql());
+				sql()<<"INSERT INTO users(username,password) values(?,?)"
+					<< c.user.username.value() << c.user.password.value() << cppdb::exec;
+				tr.commit();
+				response().set_redirect_header(url("/admin/users/list"));
+				return;
+			} catch(cppdb::cppdb_error &e) {
+				c.user.username.error_message(cppcms::locale::translate("Duplicate"));
+				c.user.username.valid(false);
+			}
 		}
 	}
 	master::prepare(c);
@@ -65,29 +70,27 @@ void users::list(int page)
 	cppdb::result r;
 	data::admin::userlist c;
 
+	sql() << "SELECT COUNT(id) FROM users" << cppdb::row >> c.counts;
+
+	c.page_size = 20;
+	c.page = page;
+	c.calc_pages();
+
 	r = sql() <<
 		"SELECT id, username, password "
 		"FROM users "
 		"ORDER BY id ASC "
 		"LIMIT ? OFFSET ? " 
-		<< (page_size + 1) << (page * page_size);
-
-	c.next_page = page + 1;
-	c.page = page;
-	c.prev_page = page > 0 ? page - 1 : 0;
+		<< page_size << (page * page_size);
 
 	c.users.reserve(page_size);
 
 	int current_pos = 0;
 	while(r.next()) {
-		if(current_pos >= page_size) {
-			c.next_page = page + 1;
-			break;
-		}
-		c.users.resize(current_pos + 1);
+		current_pos ++;
+		c.users.resize(current_pos);
 		data::admin::user_content &cur = c.users.back();
 		r >> cur.id >> cur.username >> cur.password;
-		current_pos ++;
 	}
 
 	master::prepare(c);
@@ -105,7 +108,7 @@ void users::edit(std::string sid)
 
 	bool is_post = request().request_method()=="POST";
 
-	data::admin::user c;
+	data::admin::user_one c;
 
 	c.id = id;
 	cppdb::result r;
@@ -127,12 +130,17 @@ void users::edit(std::string sid)
 	if(is_post) {
 		c.user.load(context());
 		if(c.user.validate()) {
-			cppdb::transaction tr(sql());
-			sql()<<"UPDATE users SET username=?,password=? WHERE id=?" 
-				<< c.user.username.value() << c.user.password.value() << id << cppdb::exec;
-			tr.commit();
-			response().set_redirect_header(url("/admin/users/list"));
-			return;
+			try {
+				cppdb::transaction tr(sql());
+				sql()<<"UPDATE users SET username=?,password=? WHERE id=?"
+					<< c.user.username.value() << c.user.password.value() << id << cppdb::exec;
+				tr.commit();
+				response().set_redirect_header(url("/admin/users/list"));
+				return;
+			} catch(cppdb::cppdb_error &e) {
+				c.user.username.error_message(cppcms::locale::translate("Duplicate"));
+				c.user.username.valid(false);
+			}
 		}
 	} else {
 		c.user.username.value(r.get<std::string>(0));
@@ -159,7 +167,7 @@ void users::del(std::string sid)
 
 void users::prepare()
 {
-	data::admin::users c;
+	data::admin::user_login c;
 
 	session().reset_session();
 	session().clear();
@@ -194,7 +202,7 @@ void users::prepare()
 		}
 	}
 	master::prepare(c);
-	render("admin_skin","users",c);
+	render("admin_skin","user_login",c);
 }
 
 
