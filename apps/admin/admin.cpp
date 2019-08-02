@@ -48,7 +48,7 @@ admin_master::admin_master(cppcms::service &srv) : cppcms::application(srv)
 	attach( new users(srv),
 		"users",
 		"/users{1}",
-		"/users(/?)",1);
+		"/users((/.*)?)",1);
 
 	attach(	new summary(srv),
 		"summary",

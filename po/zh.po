@@ -498,7 +498,7 @@ msgstr "下一页"
 #: views/blog/summary.tmpl:40
 #: fuzzy
 msgid "previous page"
-msgstr "新建页面"
+msgstr "上一页"
 
 #: views/blog/summary.tmpl:58
 #: fuzzy
@@ -514,6 +514,18 @@ msgid ""
 "The template design based on WordPress OrangeSky template by Naoko McCracken"
 msgstr ""
 "The template design based on WordPress OrangeSky template by Naoko McCracken"
+
+#: views/admin/master.tmpl:24
+msgid "User Admin"
+msgstr "用户管理"
+
+#: views/admin/users.tmpl:32
+msgid "Add user"
+msgstr "添加用户"
+
+#: views/admin/users.tmpl:52
+msgid "Are you sure you want to delete this user?"
+msgstr "您确认要删除该用户吗？"
 
 # Please translate LANG as native name of language, for example for French -- `Français'
 #~ msgid "LANG"

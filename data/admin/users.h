@@ -26,5 +26,46 @@ namespace data {
 
 			login_form login;
 		};
+
+		struct user : public master {
+			struct user_form : public cppcms::form {
+				cppcms::widgets::text username;
+				cppcms::widgets::text password;
+				cppcms::widgets::submit save;
+
+				user_form()
+				{
+					username.non_empty();
+					username.message(booster::locale::translate("Username"));
+					password.non_empty();
+					password.message(booster::locale::translate("Password"));
+					save.value(booster::locale::translate("Save"));
+
+					add(username);
+					add(password);
+					add(save);
+				}
+			};
+
+			user_form user;
+
+			int id;
+		};
+
+		struct user_content {
+			int id;
+			std::string username;
+			std::string password;
+			user_content() : id(0) {
+			}
+		};
+
+		struct userlist : public master {
+			int prev_page;
+			int page;
+			int next_page;
+
+			std::vector<user_content> users;
+		};
 	}
 }

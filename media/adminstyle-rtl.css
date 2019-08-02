@@ -24,3 +24,12 @@ fieldset, address, pre { margin:5px;}
 #langlist {
 	text-align: left;
 }
+
+.prevpage{
+        float:right;
+}
+
+
+.nextpage{
+        float:left;
+}

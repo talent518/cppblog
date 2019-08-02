@@ -21,3 +21,12 @@ li, dd { margin-left:2em;}
 #langlist {
 	text-align: right;
 }
+
+.prevpage{
+        float:left;
+}
+
+
+.nextpage{
+        float:right;
+}

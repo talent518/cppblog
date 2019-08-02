@@ -4,6 +4,8 @@
 namespace data {
 	namespace admin {
 		struct master : public basic_master {
+			int loginId;
+			std::string loginUser;
 		};
 	}
 }
