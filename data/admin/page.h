@@ -6,7 +6,7 @@ namespace data {
 		struct page : public master {
 			struct page_form : public cppcms::form {
 				cppcms::widgets::text title;
-				cppcms::widgets::textarea content;
+				tinymce content;
 				cppcms::widgets::submit save; 
 				cppcms::widgets::submit save_and_continue; 
 				cppcms::widgets::submit change_status; 

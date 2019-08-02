@@ -8,7 +8,7 @@ namespace data {
 				
 				cppcms::widgets::text title;
 				cppcms::widgets::textarea abstract;
-				cppcms::widgets::textarea content;
+				tinymce content;
 
 				cppcms::widgets::submit save; 
 				cppcms::widgets::submit save_and_continue; 
@@ -31,11 +31,12 @@ namespace data {
 					title.size(80);
 					abstract.message(booster::locale::translate("Abstract"));
 					abstract.non_empty();
-					abstract.rows(30);
+					abstract.rows(10);
 					abstract.cols(80);
 					content.message(booster::locale::translate("Content"));
-					content.rows(30);
+					content.rows(80);
 					content.cols(80);
+					content.mode("standard");
 					save.value(booster::locale::translate("Save"));
 					save_and_continue.value(booster::locale::translate("Save and Continue"));
 					remove.value(booster::locale::translate("Delete"));
