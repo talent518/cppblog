@@ -7,3 +7,10 @@ The default encoding of the connection to your SQL server may not be UTF-8. To e
 string connection_string("mysql:host=127.0.0.1;database=foo;user=bar;password=foobar;set_charset_name=utf8");  
 cppdb::session session(connection_string);
 ```
+
+# Build and run
+Execute the following commands:
+```
+make run
+```
+
