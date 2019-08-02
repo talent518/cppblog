@@ -33,6 +33,7 @@ namespace data {
 					abstract.non_empty();
 					abstract.rows(10);
 					abstract.cols(80);
+					abstract.attributes_string("class=\'abstract-field\'");
 					content.message(booster::locale::translate("Content"));
 					content.rows(80);
 					content.cols(80);

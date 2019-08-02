@@ -16,14 +16,14 @@
 	background-color:#FFFFFF;
 	font-family: Arial, sans-serif;
 	font-size:83%;
-	margin:20px auto;
+	margin:0px auto;
 	width:760px;
 	padding-left:10px;
 	padding-right:10px;
 }
 
 
-h1 {font-size:167%; border-bottom: #999999 solid thin;}
+h1 {font-size:167%; padding-bottom:5px; border-bottom: #cccccc solid thin;}
 
 h2 {font-size:139%;}
 
@@ -182,18 +182,30 @@ a:hover {
 
 
 #comments {
-        border-top: #999999 solid thin;
+        border-top: #cccccc solid thin;
 } 
 
 #comments dd {
-        margin-left:25px;
-        padding-left:5px;
-        margin-right:25px;
-        padding-right:5px;
+    margin-left:25px;
+    padding-left:5px;
+    margin-right:25px;
+    padding-right:5px;
+}
+
+#comments input {
+	/*width: 170px;*/
+	padding: 5px 1em;
+	border-radius:3px;
+	margin: 5px 0 1px 5px;
+	background:#ddd;
+	border: 1px #bbb solid;
 }
 
 #comments textarea {
-	width:100%
+	width:498px;
+	border-radius:5px;
+	padding:5px;
+	resize:none;
 }
 
 #footercontact {

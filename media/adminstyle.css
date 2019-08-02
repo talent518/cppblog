@@ -46,25 +46,79 @@ a:hover {
 }
 #footer p { margin:3px; }
 
+#form {padding: 20px;padding-bottom:10px;}
 #form textarea {
-	width:98%
+	width:698px;
+	line-height:22px;
+	padding: 5px;
+	border-radius:5px;
+	margin: 5px 0;
+	border: 1px #bbb solid;
+	resize: none;
 }
 
-#form_title input {
-	width:98%
+#form h2 {margin:0 -20px;padding:0 20px 10px;border-bottom: 1px #999 solid;}
+#form form {padding-top:10px;}
+
+#form input[name=clear] {
+	height:40px;
+	padding: 0 1em;
+	line-height:40px;
+	border-radius:3px;
+	margin: 5px 0 20px;
+	border: 1px #bbb solid;
 }
 
+.cppcms_form_input .tox-tinymce {
+	margin: 5px 0;
+}
 
-#form dd, dt {
-	margin-left:25px;
-	padding-left:5px;
-	margin-right:25px;
-	padding-right:5px;
+.cppcms_form_input input {
+	width:698px;
+	height:30px;
+	padding: 0 5px;
+	line-height:30px;
+	border-radius:3px;
+	margin: 5px 0 20px;
+	border: 1px #bbb solid;
+}
+
+.cppcms_form_input input[type=submit] {
+	width:auto;
+	height:40px;
+	line-height:40px;
+	padding: 0 1em;
+	margin: 10px 10px 10px 0;
+}
+
+.cppcms_form_error {color:red;}
+
+.cppcms_form_input input[type=checkbox] {
+	width:auto;
+	height:auto;
+	line-height:30px;
+	vertical-align:middle;
+	margin:0;
+}
+
+#form dl, #form dd, #form dt {
+	padding:0;
+	margin:0;
 }
 #form dt {
 	font-size:120%;
 	font-weight:bold;
 }
+
+.user-login {margin:0 auto;width:285px;}
+.user-login h2 {text-align:center;}
+.user-login dt,.user-login dd {display:inline-block;}
+.user-login dt{width:4.5em;}
+.user-login .cppcms_form_input input {width:200px;margin-bottom:10px;}
+.user-login .cppcms_form_input input[type=submit] {margin-left:20px;width:100px;}
+
+#form .post-categories {padding: 0 0 20px;}
+#form textarea.abstract-field {margin-bottom:20px;}
 
 /* IE Hack*/
 #form fieldset {border:none;margin:0px;padding:0px;}

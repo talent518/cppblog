@@ -27,11 +27,9 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 #sidecontent ul li, #pagecontent ul li {
-	list-style-image: url(img/os_sidearrow-ltr.gif) ;
 	list-style-type: none;
 	padding-left:1.5em;
-	margin-left:1em;
-	margin-right:5px;
+	margin:0;
 }
 
 
@@ -112,7 +110,9 @@ h2 {
 }
 
 #pagecontent h1 {
-	border-bottom: dotted 1px;
+	padding-bottom:5px;
+	border-bottom: #cccccc dotted 1px;
+	margin-bottom:5px;
 }
 
 
@@ -152,6 +152,7 @@ h2.pagetitle {
 
 #sidecontent h2 {
 	padding-top:20px;
+	padding-bottom:10px;
 }
 
 #sidecontent p { padding-top: 2px; padding-bottom: 2px;}
@@ -191,11 +192,11 @@ h3 {
 
 #page {
 	background: url(img/os_main.png) repeat-y 0 100% ;
-	margin: 20px auto;
+	margin: 0px auto;
 	width: 740px;
 /*	text-align: left; - My Change */
 	text-align: justify;
-	}
+}
 
 
 
@@ -300,10 +301,16 @@ h3 {
 	padding: 10px 10px 10px 10px;
 	margin: 10px 10px 10px 10px;
 	width: 510px;
+	line-height:20px;
 	clear: both;
-	text-align:left;
-	border-top: #066 1px dotted;
-	}
+	text-align:right;
+	border-top: #ccc 1px dotted;
+}
+
+#footer:after {
+	content: '.';
+	clear: both;
+}
 
 
 #pagecontent {
@@ -450,7 +457,7 @@ ul.commentdata {
 #sidecontent ul li,
 
 ul.links ul li {
-	background: url(img/os_sidearrow-ltr.gif) no-repeat;/* 100% 0.6em no-repeat;*/
+	background: url(img/os_sidearrow-ltr.gif) left center no-repeat;/* 100% 0.6em no-repeat;*/
 	list-style: none;
 }
 
@@ -465,10 +472,8 @@ ul.links h2 {
  
 
 #pagecontent ol {
-
 	padding: 5px 5px 5px 30px;
-
-	}
+}
 
 .prevpage{
         float:left;
@@ -480,16 +485,11 @@ ul.links h2 {
 }
 
 .postmetadata ul, .postmetadata li {
-
 	display: inline;
-
 	list-style-type: none;
-
 	list-style-image: none;
-
 	font-family: serif;
-
-	}
+}
 
 
 
@@ -531,62 +531,46 @@ ol li, #sidecontent ul ol li {
 #searchform {
 	text-align: center;
 	padding: 0 10px;
-	}
-
-
+}
 
 #sidecontent #searchform #s {
 	width: 95px;
 	padding: 1px;
-	}
-
-
+}
 
 #sidecontent #searchsubmit {
-
 	padding: 0;
-
-	}
-
-
+}
 
 select {
-
 	width: 130px;
-
-	}
-
-
+}
 
 #comments input {
-
 	/*width: 170px;*/
-
-	padding: 2px 0;
-
+	padding: 5px 1em;
+	border-radius:3px;
 	margin: 5px 0 1px 5px;
-
-	}
-
-
+	background:#ddd;
+	border: 1px #bbb solid;
+}
 
 #comments textarea {
+	width: 498px;
+	line-height:22px;
+	padding: 5px;
+	border-radius:5px;
+	resize: none;
+}
 
-	width: 98%;
-
-	padding: 2px;
-
-	}
-
-
+#comments p {
+	padding:0;
+	margin:10px 0;
+}
 
 #comments #submit {
-
-	margin: 0;
-
 	float: right;
-
-	}
+}
 
 /* End Form */
 
@@ -639,16 +623,9 @@ select {
 }
 
 #comments{
-	border-top: dotted 1px;
+	border-top: #ccc dotted 1px;
+	padding-top: 10px;
 }
-
-
-
-#comments p {
-	margin: 5px 0;
-}
-
-
 
 .nocomments {
 
@@ -859,7 +836,7 @@ margin-top:-35px;
 .nextpage {text-align:right;}
 
 #copyright {
-	margin-top:15px;
+	padding:15px 15px 10px;
 } 
 
 #footercontact {

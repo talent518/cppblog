@@ -2,43 +2,34 @@
 <% skin admin_skin %>
 <% view users uses data::admin::users extends master %>
 <% template master_content() %>
+<div id="form" class="user-login">
+<h2><% gt "User login" %></h2>
 <form action="<% url "/admin/users" %>" method="post"><% csrf %>
-	<center>
-		<div style="padding:50px; font-size:200%;">
-			<table style="text-align:left" >
-				<% form as_table login %>
-			</table>
-		</div>
-	</center>
+	<% form as_dl login %>
 </form>
+</div>
 <% end %>
 <% end view %>
 
 <% view useradd uses data::admin::user extends master %>
 <% template master_content() %>
+<div id="form">
+<h2><% gt "Add user" %></h2>
 <form action="<% url "/admin/users/add" %>" method="post"><% csrf %>
-	<center>
-		<div style="padding:50px; font-size:200%;">
-			<table style="text-align:left" >
-				<% form as_table user %>
-			</table>
-		</div>
-	</center>
+	<% form as_dl user %>
 </form>
+</div>
 <% end %>
 <% end view %>
 
 <% view user uses data::admin::user extends master %>
 <% template master_content() %>
+<div id="form">
+<h2><% gt "Edit user {1}" using id %></h2>
 <form action="<% url "/admin/users" using id %>" method="post"><% csrf %>
-	<center>
-		<div style="padding:50px; font-size:200%;">
-			<table style="text-align:left" >
-				<% form as_table user %>
-			</table>
-		</div>
-	</center>
+	<% form as_dl user %>
 </form>
+</div>
 <% end %>
 <% end view %>
 

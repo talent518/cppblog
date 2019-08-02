@@ -13,6 +13,8 @@ namespace apps {
 			void prepare(data::admin::master &c) {
 				basic_master::prepare(c);
 
+				if(session().is_set("nlang")) c.nlang = session().get<int>("nlang");
+
 				if(session().is_set("user")) {
 					c.loginId = session().get<int>("id");
 					c.loginUser = session().get("user");

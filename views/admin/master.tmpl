@@ -16,6 +16,7 @@
 	<link href="<%= media %>/adminstyle-ltr.css" rel="stylesheet" type="text/css" />
 <% end %>
 	<script src="<%= media %>/tinymce/tinymce.min.js" type="text/javascript"></script>
+	<% gt "<!-- tinymc defaults options -->" %>
 </head>
 <body>
 <div id="page">
@@ -163,11 +164,7 @@ tinymce.init({
 	selector: 'textarea[tinymce=standard]',
 	plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc	 insertdatetime advlist lists wordcount imagetools textpattern help',
 	toolbar: 'formatselect | bold italic strikethrough forecolor backcolor | link image media | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat |	 addcomment',
-	image_advtab: true,
-	content_css: [
-		'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-		'//www.tiny.cloud/css/codepen.min.css'
-	],
+	content_css: [],
 	link_list: [
 		{ title: 'My page 1', value: 'http://www.tinymce.com' },
 		{ title: 'My page 2', value: 'http://www.moxiecode.com' }

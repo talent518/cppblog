@@ -33,5 +33,3 @@ namespace data {
 
 	void init_tex_filer(cppcms::json::value const &v);
 }
-
-

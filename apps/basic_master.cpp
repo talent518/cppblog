@@ -307,10 +307,9 @@ std::string latex_filter(std::string const &in)
 		std::string tex(in,p1,p2-p1);
 		std::string wwwfile = tex_filter->convert(tex);
 		std::string html_tex = cppcms::util::escape(tex);
-		if(wwwfile.empty())  {
+		if(wwwfile.empty()) {
 			out+=html_tex;
-		}
-		else {
+		} else {
 			out+="<img src='";
 			out+= wwwfile;
 			out+="' alt='";

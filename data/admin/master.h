@@ -20,7 +20,14 @@ namespace data {
 			void mode(std::string m) {mode_ = m;}
 		};
 
+		enum {
+			NONE=0,
+			CHINESE,
+			ENGLISH
+		};
+
 		struct master : public basic_master {
+			int nlang;
 			int loginId;
 			std::string loginUser;
 		};
