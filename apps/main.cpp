@@ -93,8 +93,7 @@ int main(int argc,char **argv)
 		srv.applications_pool().mount(cppcms::applications_factory<blog>());
 		apps::init_tex_filer(srv.settings());
 		srv.run();
-	}
-	catch(std::exception const &e) {
+	} catch(std::exception const &e) {
 		std::cerr << "Failed: " << e.what() << std::endl;
 		std::cerr << booster::trace(e) << std::endl;
 		return 1;

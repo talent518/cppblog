@@ -25,23 +25,23 @@ msgstr "发布"
 
 #: /home/artik/Projects/cppcms/blog/apps/admin/categories.cpp:52
 msgid "Invalid category name"
-msgstr ""
+msgstr "无效的分类名称"
 
 #: /home/artik/Projects/cppcms/blog/apps/admin/categories.cpp:76
-#, fuzzy
+#: fuzzy
 msgid "The category is not empty, can't delete"
 msgstr "此分类不为空，不能删除。"
 
 #: /home/artik/Projects/cppcms/blog/data/config.h:33
 #: /home/artik/Projects/cppcms/blog/data/admin/options.h:23
-#, fuzzy
+#: fuzzy
 msgid "Blog Title"
-msgstr "标题："
+msgstr "标题"
 
 #: /home/artik/Projects/cppcms/blog/data/config.h:35
 #: /home/artik/Projects/cppcms/blog/data/admin/options.h:25
 msgid "Blog Subtitle"
-msgstr ""
+msgstr "副标题"
 
 #: /home/artik/Projects/cppcms/blog/data/config.h:37
 #: /home/artik/Projects/cppcms/blog/data/admin/options.h:27
@@ -51,18 +51,18 @@ msgstr "联系信息"
 
 #: /home/artik/Projects/cppcms/blog/data/config.h:38
 #: /home/artik/Projects/cppcms/blog/data/admin/users.h:16
-#, fuzzy
+#: fuzzy
 msgid "Username"
 msgstr "用户名："
 
 #: /home/artik/Projects/cppcms/blog/data/config.h:40
 #: /home/artik/Projects/cppcms/blog/data/admin/users.h:18
-#, fuzzy
+#: fuzzy
 msgid "Password"
-msgstr "密码："
+msgstr "密　码："
 
 #: /home/artik/Projects/cppcms/blog/data/config.h:42
-#, fuzzy
+#: fuzzy
 msgid "Confirm Password"
 msgstr "确认密码："
 
@@ -76,13 +76,13 @@ msgstr "保存"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/comment.h:38
 #: /home/artik/Projects/cppcms/blog/data/blog/post.h:53
-#, fuzzy
+#: fuzzy
 msgid "Author"
 msgstr "作者："
 
 #: /home/artik/Projects/cppcms/blog/data/admin/comment.h:39
 #: /home/artik/Projects/cppcms/blog/data/blog/post.h:57
-#, fuzzy
+#: fuzzy
 msgid "E-Mail"
 msgstr "E-Mail:"
 
@@ -95,7 +95,7 @@ msgstr ""
 #: /home/artik/Projects/cppcms/blog/data/admin/post.h:36
 #: /home/artik/Projects/cppcms/blog/data/admin/page.h:23
 #: /home/artik/Projects/cppcms/blog/data/blog/post.h:62
-#, fuzzy
+#: fuzzy
 msgid "Content"
 msgstr "正文："
 
@@ -108,20 +108,20 @@ msgstr "删除"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/comment.h:46
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "确认删除"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/comment.h:47
 msgid "Check to Delete"
-msgstr ""
+msgstr "选中可删除"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/post.h:29
 #: /home/artik/Projects/cppcms/blog/data/admin/page.h:21
-#, fuzzy
+#: fuzzy
 msgid "Title"
 msgstr "标题："
 
 #: /home/artik/Projects/cppcms/blog/data/admin/post.h:32
-#, fuzzy
+#: fuzzy
 msgid "Abstract"
 msgstr "摘要："
 
@@ -132,17 +132,17 @@ msgstr "保存并继续"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/post.h:42
 #: /home/artik/Projects/cppcms/blog/data/admin/page.h:30
-#, fuzzy
+#: fuzzy
 msgid "Confirm delete"
 msgstr "删除"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/post.h:43
 msgid "Check this to delete post"
-msgstr ""
+msgstr "选中此项可删除评论"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/page.h:31
 msgid "Check this to delete page"
-msgstr ""
+msgstr "选中此项可删除页面"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/users.h:19
 msgid "Login"
@@ -150,11 +150,11 @@ msgstr "登录"
 
 #: /home/artik/Projects/cppcms/blog/data/admin/options.h:28
 msgid "Copyright Notice"
-msgstr ""
+msgstr "版权声明"
 
 #: /home/artik/Projects/cppcms/blog/data/blog/post.h:58
 msgid "the email would not displayed"
-msgstr ""
+msgstr "电子邮件不会显示"
 
 #: /home/artik/Projects/cppcms/blog/data/blog/post.h:65
 msgid "Preview"
@@ -225,15 +225,15 @@ msgstr "缓存"
 
 #: views/admin/master.tmpl:50 views/admin/config.tmpl:34
 msgid "CppBlog is a high performance blog written in C++."
-msgstr "CppBlog is a high performance blog written in C++."
+msgstr "CppBlog是一个用C++编写的高性能博客。"
 
 #: views/admin/master.tmpl:53
-#, fuzzy
+#: fuzzy
 msgid ""
 "This software is availible under GNU GPL Licence, &copy; 2008-2011 Artyom "
 "Beilis."
 msgstr ""
-"This software is availible under GNU GPL Licence, &copy; Artyom Tonkikh。"
+"此软件在GNU GPL许可证下可用, &copy; 2008-2011 Artyom。"
 
 #: views/admin/summary.tmpl:6
 msgid "Unpublished Posts"
@@ -270,27 +270,27 @@ msgid "No comments"
 msgstr "没有评论"
 
 #: views/admin/page.tmpl:6
-#, fuzzy
+#: fuzzy
 msgid "Edit Page {1}"
 msgstr "编辑页面 No."
 
 #: views/admin/page.tmpl:6
-#, fuzzy
+#: fuzzy
 msgid "Create New Page"
 msgstr "新建页面"
 
 #: views/admin/page.tmpl:8 views/admin/post.tmpl:8
-#, fuzzy
+#: fuzzy
 msgid "Preview..."
 msgstr "预览"
 
 #: views/admin/post.tmpl:6
-#, fuzzy
+#: fuzzy
 msgid "Edit Post {1}"
 msgstr "编辑日志 No."
 
 #: views/admin/post.tmpl:6
-#, fuzzy
+#: fuzzy
 msgid "Create New Post"
 msgstr "新建日志"
 
@@ -319,10 +319,10 @@ msgid "Add To Categories:"
 msgstr "添加到分类："
 
 #: views/admin/caching.tmpl:7
-#, fuzzy
+#: fuzzy
 msgid "Cached one entry."
 msgid_plural "Cached {1,num} entries."
-msgstr[0] " %1% 条缓存记录。"
+msgstr[0] "有 {1,num} 条缓存记录。"
 
 #: views/admin/caching.tmpl:10
 msgid "Clear Cache"
@@ -337,13 +337,13 @@ msgid "Options"
 msgstr "选项"
 
 #: views/admin/comment.tmpl:6
-#, fuzzy
+#: fuzzy
 msgid "Edit comment"
-msgstr "编辑评论 No."
+msgstr "编辑评论"
 
 #: views/admin/comment.tmpl:7
 msgid "Go back to the post"
-msgstr ""
+msgstr "返回到此评论"
 
 #: views/admin/categories.tmpl:24 views/blog/skins/contendend.tmpl:93
 #: views/blog/skins/orangesky.tmpl:88
@@ -409,30 +409,28 @@ msgstr ""
 msgid ""
 "Based on Design by <a href=\"http://ContentedDesigns.com\">Contented "
 "Designs</a>"
-msgstr ""
-"Based on Design by <a href=\"http://ContentedDesigns.com\">Contented "
-"Designs</a>"
+msgstr "以满足设计为基础"
 
 #: views/blog/skins/contendend.tmpl:105 views/blog/skins/orangesky.tmpl:100
-#, fuzzy
+#: fuzzy
 msgid "&copy; All Rights Reserved"
-msgstr "© All Rights Reserved"
+msgstr ""
 
 #: views/blog/post.tmpl:5
-#, fuzzy
+#: fuzzy
 msgid "Preview Comment"
 msgstr "预览"
 
 #: views/blog/post.tmpl:11 views/blog/summary.tmpl:17
 msgid "{1,date=f}, by {2} "
-msgstr ""
+msgstr "{1,date=m} &nbsp; 作者： {2} "
 
 #: views/blog/post.tmpl:13 views/blog/summary.tmpl:19
 msgid "Posted in:"
 msgstr "分类："
 
 #: views/blog/post.tmpl:15 views/blog/summary.tmpl:22
-#, fuzzy
+#: fuzzy
 msgid "one comment"
 msgid_plural "{1} comments"
 msgstr[0] " ‏%1% 条评论"
@@ -443,14 +441,14 @@ msgstr "评论"
 
 #: views/blog/post.tmpl:35
 msgid "at {1,datetime=s}"
-msgstr ""
+msgstr "{1,datetime=m}"
 
 #: views/blog/post.tmpl:57
 msgid "Add Comment:"
 msgstr "添加评论："
 
 #: views/blog/post.tmpl:70
-#, fuzzy
+#: fuzzy
 msgid "Message content are mandatory!"
 msgstr "名字，E-Mail及正文都是必填的。"
 
@@ -483,12 +481,12 @@ msgid "You must enable JavaScript in order to post comments."
 msgstr "您必须启用浏览器的 JavaScript 功能才能发表评论。"
 
 #: views/blog/summary.tmpl:6
-#, fuzzy
+#: fuzzy
 msgid "RSS for {1}"
 msgstr "订阅分类：‏%1%"
 
 #: views/blog/summary.tmpl:11
-#, fuzzy
+#: fuzzy
 msgid "Posts in category &#8216;{1}&#8217;."
 msgstr "\"%1%\" 中的日志："
 
@@ -498,12 +496,12 @@ msgid "next page"
 msgstr "下一页"
 
 #: views/blog/summary.tmpl:40
-#, fuzzy
+#: fuzzy
 msgid "previous page"
 msgstr "新建页面"
 
 #: views/blog/summary.tmpl:58
-#, fuzzy
+#: fuzzy
 msgid "There are not posts in category &#8216;{1}&#8217;"
 msgstr "分类 \"%1%\" 中没有日志。"
 
