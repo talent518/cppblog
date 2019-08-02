@@ -6,10 +6,13 @@
 
 #include <cppcms/service.h>
 #include <cppcms/applications_pool.h>
-#include <cppcms/url_mapper.h>
+#include <cppcms/cache_interface.h>
+#include <cppcms/http_context.h>
 #include <cppcms/http_request.h>
 #include <cppcms/http_response.h>
 #include <cppcms/json.h>
+#include <cppcms/session_interface.h>
+#include <cppcms/url_mapper.h>
 
 #include <iostream>
 #include <ctime>
@@ -55,6 +58,21 @@ public:
 	{
 		clock_t start = std::clock();
 		time_t t = time(NULL);
+		std::string lang = request().http_accept_language();
+		int nlang = 0;
+
+		if(!lang.compare(0, 2, "zh") || !lang.compare(0, 2, "cn")) {
+			nlang = 1;
+			context().locale("zh.UTF-8");
+		} else {
+			nlang = 2;
+			context().locale("en_US.UTF-8");
+		}
+
+		if(!session().is_set("nlang") || session().get<int>("nlang") != nlang) {
+			session().set<int>("nlang", nlang);
+			cache().clear();
+		}
 
 		try {
 			response().status(cppcms::http::response::ok);
