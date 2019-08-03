@@ -66,7 +66,6 @@ void users::list(std::string page)
 
 void users::list(int page)
 {
-	static const int page_size = 5;
 	cppdb::result r;
 	data::admin::userlist c;
 
@@ -81,9 +80,9 @@ void users::list(int page)
 		"FROM users "
 		"ORDER BY id ASC "
 		"LIMIT ? OFFSET ? " 
-		<< page_size << (page * page_size);
+		<< c.page_size << (c.page * c.page_size);
 
-	c.users.reserve(page_size);
+	c.users.reserve(c.page_size);
 
 	int current_pos = 0;
 	while(r.next()) {
