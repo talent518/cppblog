@@ -22,7 +22,7 @@
 <%= abstract | ext latex | ext markdown2html %>
 <% if not empty content %>
 	<span id="more"></span>
-	<%= content | ext latex | ext  markdown2html %>
+	<%= content | raw %>
 <% end %>
 <div id="comments">
 <span id="comments_pos"></span>
