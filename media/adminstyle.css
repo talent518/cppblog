@@ -184,3 +184,12 @@ h4 {font-size:100%;}
 .userlist > .multi-page {margin-top:15px;}
 .userlist > .multi-page .desc{float:right;}
 
+.category-form ul{margin:15px 0;}
+.category-form li > p{height:25px;margin:0;line-height:25px;}
+.category-form .split{display:inline-block;width:1px;height:16px;overflow:hidden;background:#999;color:#999;margin:-3px 10px 0;vertical-align:middle;}
+.category-form form{margin:0 !important;padding:0 !important;}
+.category-form input[type=text] {width:200px;height:30px;line-height:30px;padding:0 5px;border-radius:3px;background:white;border: 1px #bbb solid;}
+.category-form input[type=submit] {cursor:pointer;height:30px;line-height:30px;padding:0 1em;border-radius:3px;margin:0 0 0 10px;background:#ddd;border: 1px #bbb solid;}
+.category-form input[type=checkbox] {margin-left:5px;vertical-align:middle;}
+.category-form input[name=remove] {margin-right:10px;}
+
