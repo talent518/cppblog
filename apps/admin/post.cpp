@@ -45,6 +45,8 @@ void post::prepare_shared(int id)
 	std::set<int> in_use_set;
 	cppdb::result r;
 
+	c.active_write_post = true;
+
 	if(id!=0){
 		c.id = id;
 		if(is_post) {

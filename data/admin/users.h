@@ -61,6 +61,7 @@ namespace data {
 		};
 
 		struct userlist : public master {
+			std::string q;
 			std::vector<user_content> users;
 		};
 	}

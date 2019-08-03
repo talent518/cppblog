@@ -33,19 +33,19 @@
 
 </div>
 <div id="path">
-	<a href="<% url "/admin/summary" %>"><% gt "main" %></a>
+	<a href="<% url "/admin/summary" %><% if active_index %>" class="active<% end %>"><% gt "main" %></a>
 	&nbsp;/&nbsp;
-	<a href="<% url "/admin/post" %>"><% gt "write post" %></a>
+	<a href="<% url "/admin/post" %><% if active_write_post %>" class="active<% end %>"><% gt "write post" %></a>
 	&nbsp;/&nbsp;
-	<a href="<% url "/admin/page"  %>"><% gt "write page" %></a>
+	<a href="<% url "/admin/page" %><% if active_write_page %>" class="active<% end %>"><% gt "write page" %></a>
 	&nbsp;/&nbsp;
-	<a href="<% url "/admin/categories"  %>"><% gt "categories" %></a>
+	<a href="<% url "/admin/categories" %><% if active_category %>" class="active<% end %>"><% gt "categories" %></a>
 	&nbsp;/&nbsp;
-	<a href="<% url "/admin/users/list"  %>"><% gt "User Admin" %></a>
+	<a href="<% url "/admin/users/list" %><% if active_users %>" class="active<% end %>"><% gt "User Admin" %></a>
 	&nbsp;/&nbsp;
-	<a href="<% url "/admin/options"  %>"><% gt "options" %></a>
+	<a href="<% url "/admin/options" %><% if active_options %>" class="active<% end %>"><% gt "options" %></a>
 	&nbsp;/&nbsp;
-	<a href="<% url "/admin/caching"  %>"><% gt "cache" %></a>
+	<a href="<% url "/admin/caching" %><% if active_caching %>" class="active<% end %>"><% gt "cache" %></a>
 </div>
 
 <% include master_content() %>

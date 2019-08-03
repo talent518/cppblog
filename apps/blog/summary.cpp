@@ -45,13 +45,13 @@ void summary::category(std::string id,std::string page)
 	prepare(atoi(id.c_str()),atoi(page.c_str()));
 }
 
-
 void summary::prepare(int cat_id,int page)
 {
 	cppdb::result r;
+	std::string q = request().get("q");
 
 	std::ostringstream key;
-	key << "summary_" << cat_id <<"_"<<page;
+	key << "summary_" << cat_id <<"_"<<page<<"_"<<q;
 	if(cache().fetch_page(key.str()))
 		return;
 	std::ostringstream ss;
@@ -60,8 +60,15 @@ void summary::prepare(int cat_id,int page)
 	
 	data::blog::summary c;
 	
+	c.q = q;
 	c.page_size = 10;
 	c.curpage = page;
+
+	if(!q.empty()) {
+		data::mysql_like(q);
+
+		q = "%" + q + "%";
+	}
 
 	if(cat_id != 0) {
 		r = sql() << "SELECT name FROM cats WHERE id=?" << cat_id << cppdb::row;
@@ -71,24 +78,44 @@ void summary::prepare(int cat_id,int page)
 		}
 		r >> c.category_name;
 
-		sql() << "SELECT COUNT(post_id) FROM post2cat WHERE cat_id=? AND is_open=1" << cat_id << cppdb::row >> c.page_records;
+		if(q.empty()) {
+			sql() << "SELECT COUNT(post_id) FROM post2cat WHERE cat_id=? AND is_open=1" << cat_id << cppdb::row >> c.page_records;
 
-		c.calc_pages();
-		c.id = cat_id;
+			c.calc_pages();
+			c.id = cat_id;
 
-		r = sql() <<
-			"SELECT posts.id,users.username,posts.title, "
-			"	posts.abstract, length(posts.content), "
-			"	posts.publish,posts.comment_count "
-			"FROM	post2cat "
-			"LEFT JOIN	posts ON post2cat.post_id=posts.id "
-			"LEFT JOIN	users ON users.id=posts.author_id "
-			"WHERE	post2cat.cat_id=? "
-			"	AND post2cat.is_open=1 "
-			"ORDER BY post2cat.publish DESC "
-			"LIMIT ? OFFSET ?" 
-			<< cat_id << c.page_size << (c.curpage * c.page_size);
-	} else {
+			r = sql() <<
+				"SELECT posts.id,users.username,posts.title, "
+				"	posts.abstract, length(posts.content), "
+				"	posts.publish,posts.comment_count "
+				"FROM	post2cat "
+				"LEFT JOIN	posts ON post2cat.post_id=posts.id "
+				"LEFT JOIN	users ON users.id=posts.author_id "
+				"WHERE	post2cat.cat_id=? "
+				"	AND post2cat.is_open=1 "
+				"ORDER BY post2cat.publish DESC "
+				"LIMIT ? OFFSET ?"
+				<< cat_id << c.page_size << (c.curpage * c.page_size);
+		} else {
+			sql() << "SELECT COUNT(post_id) FROM post2cat LEFT JOIN	posts ON post2cat.post_id=posts.id WHERE post2cat.cat_id=? AND post2cat.is_open=1 AND (posts.title LIKE ? OR posts.abstract LIKE ? OR posts.content LIKE ?)" << cat_id << q << q << q << cppdb::row >> c.page_records;
+
+			c.calc_pages();
+			c.id = cat_id;
+
+			r = sql() <<
+				"SELECT posts.id,users.username,posts.title, "
+				"	posts.abstract, length(posts.content), "
+				"	posts.publish,posts.comment_count "
+				"FROM	post2cat "
+				"LEFT JOIN	posts ON post2cat.post_id=posts.id "
+				"LEFT JOIN	users ON users.id=posts.author_id "
+				"WHERE	post2cat.cat_id=? "
+				"	AND post2cat.is_open=1 AND (posts.title LIKE ? OR posts.abstract LIKE ? OR posts.content LIKE ?) "
+				"ORDER BY post2cat.publish DESC "
+				"LIMIT ? OFFSET ?"
+				<< cat_id << q << q << q << c.page_size << (c.curpage * c.page_size);
+		}
+	} else if(q.empty()) {
 		sql() << "SELECT COUNT(id) FROM posts WHERE is_open=1" << cppdb::row >> c.page_records;
 
 		c.calc_pages();
@@ -105,6 +132,23 @@ void summary::prepare(int cat_id,int page)
 			"ORDER BY posts.publish DESC "
 			"LIMIT ? OFFSET ? " 
 			<< c.page_size << (c.curpage * c.page_size);
+	} else {
+		sql() << "SELECT COUNT(id) FROM posts WHERE is_open=1 AND (title LIKE ? OR abstract LIKE ? OR content LIKE ?)" << q << q << q << cppdb::row >> c.page_records;
+
+		c.calc_pages();
+		c.id = 0;
+
+		r = sql() <<
+			"SELECT posts.id,users.username,posts.title, "
+			"	posts.abstract, length(posts.content), "
+			"	posts.publish,posts.comment_count "
+			"FROM	posts "
+			"LEFT JOIN "
+			"	users ON users.id=posts.author_id "
+			"WHERE	posts.is_open=1 AND (title LIKE ? OR abstract LIKE ? OR content LIKE ?) "
+			"ORDER BY posts.publish DESC "
+			"LIMIT ? OFFSET ? "
+			 << q << q << q << c.page_size << (c.curpage * c.page_size);
 	}
 
 	c.posts.reserve(c.page_size);

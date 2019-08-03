@@ -44,6 +44,8 @@ categories::categories(cppcms::service &s) : master(s)
 void categories::prepare()
 {
 	data::admin::categories c;
+	c.active_category = true;
+
 	if(request().request_method()=="POST") {
 		cats_form form;
 		form.load(context());
@@ -115,8 +117,6 @@ void categories::prepare()
 	
 	render("admin_skin","categories",c);
 }
-
-
 
 } // admin
 } // apps

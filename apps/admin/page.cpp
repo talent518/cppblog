@@ -41,6 +41,8 @@ void page::prepare_shared(int id)
 	bool is_open = false;
 	bool is_post = request().request_method()=="POST";
 
+	c.active_write_page = true;
+
 	if(id!=0){
 		c.id = id;
 		cppdb::result r;

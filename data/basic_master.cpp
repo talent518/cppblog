@@ -35,4 +35,22 @@ namespace data {
 	std::string basic_master::multi_page(std::string const &u, int i) {
 		MULTI_PAGE(app().url(u, i, b));
 	}
+
+	void str_replace(std::string & str, const std::string & strsrc, const std::string &strdst) {
+		std::string::size_type pos = 0; //位置
+		std::string::size_type srclen = strsrc.size(); //要替换的字符串大小
+		std::string::size_type dstlen = strdst.size(); //目标字符串大小
+		while ((pos = str.find(strsrc, pos)) != std::string::npos) {
+			str.replace(pos, srclen, strdst);
+			pos += dstlen;
+		}
+	}
+
+	void mysql_like(std::string &str) {
+		str_replace(str, "\\", "\\\\");
+		str_replace(str, "_", "\\_");
+		str_replace(str, "|", "\\|");
+		str_replace(str, "%", "\\%");
+	}
+
 }

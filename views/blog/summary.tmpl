@@ -10,6 +10,9 @@
 <% if not empty category_name %>
 		<h1 class="categorytitle" ><% gt "Posts in category &#8216;{1}&#8217;." using category_name %></h1>
 <% end %>
+	<form class="post-search<% if not id %> margin<% end %>" action="<% if id %><% url "category" using id %><% else %><% url "/blog/summary" %><% end %>" method="get">
+		<input name="q" type="text" value="<%= q %>"/><button type="submit"><% gt "Search" %></button>
+	</form>
 <% foreach post in posts %>
 	<% item %>
 		<h1><a href="<% url "/blog/post" using post.id %>"><%= post.title %></a></h1>

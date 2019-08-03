@@ -20,16 +20,17 @@ namespace data {
 			void mode(std::string m) {mode_ = m;}
 		};
 
-		enum {
-			NONE=0,
-			CHINESE,
-			ENGLISH
-		};
-
 		struct master : public basic_master {
-			int nlang;
+			bool active_index;
+			bool active_write_post;
+			bool active_write_page;
+			bool active_category;
+			bool active_users;
+			bool active_options;
+			bool active_caching;
 			int loginId;
 			std::string loginUser;
+			master(): active_index(false),active_write_post(false),active_write_page(false),active_category(false),active_users(false),active_options(false),active_caching(false),loginId(0){}
 		};
 	}
 }

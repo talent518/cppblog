@@ -68,19 +68,41 @@ void users::list(int page)
 {
 	cppdb::result r;
 	data::admin::userlist c;
+	std::string q = request().get("q");
 
-	sql() << "SELECT COUNT(id) FROM users" << cppdb::row >> c.page_records;
-
+	c.active_users = true;
+	c.q = q;
 	c.page_size = 20;
 	c.curpage = page;
-	c.calc_pages();
 
-	r = sql() <<
-		"SELECT id, username, password "
-		"FROM users "
-		"ORDER BY id ASC "
-		"LIMIT ? OFFSET ? " 
-		<< c.page_size << (c.curpage * c.page_size);
+	if(q.empty()) {
+		sql() << "SELECT COUNT(id) FROM users" << cppdb::row >> c.page_records;
+
+		c.calc_pages();
+
+		r = sql() <<
+			"SELECT id, username, password "
+			"FROM users "
+			"ORDER BY id ASC "
+			"LIMIT ? OFFSET ? "
+			<< c.page_size << (c.curpage * c.page_size);
+	} else {
+		data::mysql_like(q);
+
+		q = "%" + q + "%";
+
+		sql() << "SELECT COUNT(id) FROM users WHERE id = ? OR username LIKE ?" << c.q << q << cppdb::row >> c.page_records;
+
+		c.calc_pages();
+
+		r = sql() <<
+			"SELECT id, username, password "
+			"FROM users "
+			"WHERE id = ? OR username LIKE ? "
+			"ORDER BY id ASC "
+			"LIMIT ? OFFSET ? "
+			<< c.q << q << c.page_size << (c.curpage * c.page_size);
+	}
 
 	c.users.reserve(c.page_size);
 

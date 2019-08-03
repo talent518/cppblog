@@ -24,6 +24,7 @@ void comment::prepare(std::string sid)
 	int id = atoi(sid.c_str());
 	data::admin::comment c;
 	c.id = id;
+	c.active_index = true;
 
 	if(request().request_method()=="POST") {
 		c.form.load(context());

@@ -551,6 +551,18 @@ msgstr "已发布日志"
 msgid "No published posts"
 msgstr "没有已发布日志"
 
+msgid "Search"
+msgstr "搜索"
+
+msgid "User ID"
+msgstr "用户ID"
+
+msgid "User name"
+msgstr "用户名"
+
+msgid "User list"
+msgstr "用户列表"
+
 # Please translate LANG as native name of language, for example for French -- `Français'
 #~ msgid "LANG"
 #~ msgstr "简体中文"

@@ -3,6 +3,7 @@
 <% view caching uses data::admin::caching extends master %>
 <% template master_content() %>
 <div id="form" %>
+	<h2><% gt "cache" %></h2>
 <% if is_active %>
 	<p><% ngt "Cached one entry.","Cached {1,num} entries.",size using size %></p>
 	<p>

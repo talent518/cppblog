@@ -20,6 +20,7 @@ void caching::prepare()
 	unsigned keys = 0, triggers = 0;
 	c.is_active = cache().stats(keys,triggers);
 	c.size = keys;
+	c.active_caching = true;
 	master::prepare(c);
 	render("admin_skin","caching",c);
 }

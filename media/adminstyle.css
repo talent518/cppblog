@@ -139,33 +139,48 @@ h4 {font-size:100%;}
 
 #path { margin-right:5px; margin-left:5px; font-size:80%; }
 
+#path .active{color:black;}
+
 .catlist { list-style:none; }
-
-.prevpage, .nextpage {
-	font-size:80%;
-	font-style:italic;
-	padding-top:5px;
-}
-
-.userlist {
-	padding:20px;
-	max-width:300px;
-}
-
-.userlist > h1 {
-	font-size:16px;
-	margin: 0 0 10px;
-}
-
-.userlist > .item {
-	line-height:22px;
-}
-
-.userlist > .item > a {
-	margin-left:20px;
-}
 
 .multi-page {line-height:20px;margin-top:5px;}
 .multi-page .desc{display:block;}
 .multi-page .page{margin-right:5px;}
+
+.userlist {
+	padding:20px;
+}
+
+.userlist > h1, .userlist > h2{margin:0;line-height:25px;}
+.userlist > h1 {
+	font-size:16px;
+	float:right;
+}
+
+.userlist > h2 {margin:0 -20px 15px;padding:0 20px 10px;border-bottom: 1px #999 solid;}
+
+.userlist > table {
+	line-height:30px;
+	width:100%;
+	border-spacing:0;
+	border:1px #ddd solid;
+}
+
+.userlist th, .userlist td {
+	padding:0 10px;
+	text-align:left;
+	border:0 none;
+}
+.userlist th {border-bottom:1px #ccc solid !important;}
+.userlist tr > .id {width:60px;}
+.userlist tr > .name{border:1px #ddd solid;border-width:0 1px;}
+.userlist tr > .delete {width:2.2em;white-space:nowrap;}
+.userlist td {border-top:1px #ccc solid !important;}
+
+.userlist > .search {margin:0 0 15px;text-align:center;}
+.userlist > .search > * {box-sizing: border-box;}
+.userlist > .search input {width:300px;height:30px;line-height:30px;padding:0 5px;border-radius:3px;background:white;border: 1px #bbb solid;}
+.userlist > .search button {cursor:pointer;height:30px;line-height:30px;padding:0 1em;border-radius:3px;margin:0 0 0 10px;background:#ddd;border: 1px #bbb solid;}
+.userlist > .multi-page {margin-top:15px;}
+.userlist > .multi-page .desc{float:right;}
 

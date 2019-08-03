@@ -19,6 +19,8 @@ options::options(cppcms::service &s) : master(s)
 void options::prepare()
 {
 	data::admin::options c;
+	c.active_options = true;
+
 	if(request().request_method()=="POST") {
 		c.form.load(context());
 		if(c.form.validate()) {

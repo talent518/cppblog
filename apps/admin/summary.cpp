@@ -32,6 +32,8 @@ void summary::prepare(int page)
 	master::prepare(c);
 	cppdb::result r;
 
+	c.active_index = true;
+
 	// posts
 	r= sql() << 
 		"SELECT id,title "

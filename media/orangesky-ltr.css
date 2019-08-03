@@ -853,3 +853,8 @@ margin-top:-35px;
 .multi-page .desc{float:right;}
 .multi-page .page{margin-right:5px;}
 
+.post-search.margin {margin-top:20px;}
+.post-search > * {box-sizing: border-box;}
+.post-search input {width:300px;height:30px;line-height:30px;padding:0 5px;border-radius:3px;background:white;border: 1px #bbb solid;}
+.post-search button {cursor:pointer;height:30px;line-height:30px;padding:0 1em;border-radius:3px;margin:0 0 0 10px;background:#ddd;border: 1px #bbb solid;}
+

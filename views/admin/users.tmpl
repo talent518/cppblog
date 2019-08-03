@@ -35,13 +35,21 @@
 
 <% view userlist uses data::admin::userlist extends master %>
 <% template master_content() %>
-
 <div class="userlist">
 <h1><a href="<% url "/admin/users/add" %>"><% gt "Add user" %></a></h1>
+<h2><% gt "User list" %></h2>
+<form class="search" action="<% url "/admin/users/list" %>" method="get">
+	<input name="q" type="text" value="<%= q %>"/><button type="submit"><% gt "Search" %></button>
+</form>
 <% foreach user in users %>
+	<table>
+		<thead><tr><th class="id"><% gt "User ID" %></th><th class="name"><% gt "User name" %></th><th class="delete"><% gt "Delete" %></th></tr></thead>
+		<tbody>
 	<% item %>
-		<div class="item"><%= user.id %> <a href="<% url "/admin/users" using user.id %>"><%= user.username %></a><% if ( user.id != content.loginId ) %> <a href="<% url "/admin/users/del" using user.id %>" onclick="return confirm('<% gt "Are you sure you want to delete this user?" %>');"><% gt "Delete" %></a><% end %></div>
+		<tr><td class="id"><%= user.id %></td><td class="name"><a href="<% url "/admin/users" using user.id %>"><%= user.username %></a></td><td class="delete"><% if ( user.id != content.loginId ) %><a href="<% url "/admin/users/del" using user.id %>" onclick="return confirm('<% gt "Are you sure you want to delete this user?" %>');"><% gt "Delete" %></a><% end %></td></tr>
 	<% end %>
+		<tbody>
+	</table>
 
 	<% c++ out() << content.multi_page("/admin/users/list"); %>
 <%end%>

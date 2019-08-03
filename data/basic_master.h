@@ -36,6 +36,8 @@ namespace data {
 		int curpage;
 		int page_total;
 
+		basic_master(): latex(NULL), page_records(0), page_size(0), curpage(0), page_total(0) {}
+
 		void calc_pages() {
 			page_total = ceil((double) page_records / (double) page_size);
 			curpage = curpage < 0 ? 0 : (curpage >= page_total ? page_total - 1 : curpage);
@@ -46,4 +48,6 @@ namespace data {
 	};
 
 	void init_tex_filer(cppcms::json::value const &v);
+	void str_replace(std::string & str, const std::string & strsrc, const std::string &strdst);
+	void mysql_like(std::string &str);
 }
