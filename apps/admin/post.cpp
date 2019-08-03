@@ -155,9 +155,7 @@ void post::prepare_shared(int id)
 						cache().rise("cat_0"); // insert
 					tr.commit();
 				}
-				if(open_status)
-					response().set_redirect_header(url("/blog/post",id));
-				else if(c.form.save_and_continue.value())
+				if(c.form.save_and_continue.value())
 					response().set_redirect_header(url("/admin/post",id));
 				else
 					response().set_redirect_header(url("/admin/summary"));
@@ -257,10 +255,7 @@ void post::prepare_shared(int id)
 				} // end of transaction 
 
 				if(c.form.save.value() || c.form.change_status.value()) {
-					if(open_status)
-						response().set_redirect_header(url("/blog/post",id));
-					else
-						response().set_redirect_header(url("/admin/summary"));
+					response().set_redirect_header(url("/admin/summary"));
 				}
 				else {
 					response().set_redirect_header(url("/admin/post",id));

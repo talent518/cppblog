@@ -53,7 +53,7 @@ admin_master::admin_master(cppcms::service &srv) : cppcms::application(srv)
 	attach(	new summary(srv),
 		"summary",
 		"{1}",
-		"/?",0);
+		"((/.*)?)",1);
 }
 
 void admin_master::main(std::string path)

@@ -8,14 +8,11 @@ li, dd { margin-left:2em;}
 #header { text-align:left;}
 
 #news {
-        float: right;
-        margin-right:5px;
+    float: right;
 }
 
 #menu {
-        margin-left:5px;
-        float: left;
-        padding:5px;
+    float: left;
 }
 
 #langlist {
@@ -30,3 +27,6 @@ li, dd { margin-left:2em;}
 .nextpage{
         float:right;
 }
+
+#menu .multi-page .desc {float:right;}
+

@@ -3,15 +3,26 @@
 <% view summary uses data::admin::summary extends master %>
 <% template master_content() %>
 <div id="menu">
-        <h2><% gt "Unpublished Posts" %></h2>
-        <% foreach post in posts %>
-	        <ul>
-        	<% item %>
+    <h2><% gt "Unpublished Posts" %></h2>
+    <% foreach post in posts %>
+        <ul>
+    	<% item %>
 			<li><a href="<% url "/admin/post" using post.id %>"><%= post.title %></a></li>
 		<% end %>
 		</ul>
 	<% empty %>
 		<p><% gt "No unpublished posts" %></p>
+	<% end%>
+    <h2><% gt "Published Posts" %></h2>
+    <% foreach post in publisheds %>
+        <ul>
+    	<% item %>
+			<li><a href="<% url "/admin/post" using post.id %>"><%= post.title %></a></li>
+		<% end %>
+		</ul>
+		<% c++ out() << content.multi_page("page");%>
+	<% empty %>
+		<p><% gt "No published posts" %></p>
 	<% end%>
 </div>
 <div id="news">

@@ -24,6 +24,7 @@ namespace data {
 			std::vector<comment> comments;
 			std::vector<page> pages;
 			std::vector<post> posts;
+			std::vector<post> publisheds;
 		};
 	}
 }

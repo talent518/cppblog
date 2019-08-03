@@ -237,11 +237,11 @@ msgstr ""
 
 #: views/admin/summary.tmpl:6
 msgid "Unpublished Posts"
-msgstr "暂未发布的日志"
+msgstr "未发布的日志"
 
 #: views/admin/summary.tmpl:14
 msgid "No unpublished posts"
-msgstr "没有暂未发布的日志"
+msgstr "没有未发布的日志"
 
 #: views/admin/summary.tmpl:18 views/blog/skins/contendend.tmpl:84
 #: views/blog/skins/orangesky.tmpl:79
@@ -272,7 +272,7 @@ msgstr "没有评论"
 #: views/admin/page.tmpl:6
 #: fuzzy
 msgid "Edit Page {1}"
-msgstr "编辑页面 No."
+msgstr "编辑页面 {1}"
 
 #: views/admin/page.tmpl:6
 #: fuzzy
@@ -542,8 +542,14 @@ msgstr "<script src=\"{1}/tinymce/langs/zh_CN.js\" type=\"text/javascript\"></sc
 msgid "Duplicate"
 msgstr "已重复"
 
-msgid "Total {1} pages, total {2} records."
-msgstr "共 {1} 页，共 {2} 记录。"
+msgid "Total {1} pages, {2} records."
+msgstr "共 {1} 页，{2} 条记录。"
+
+msgid "Published Posts"
+msgstr "已发布日志"
+
+msgid "No published posts"
+msgstr "没有已发布日志"
 
 # Please translate LANG as native name of language, for example for French -- `Français'
 #~ msgid "LANG"

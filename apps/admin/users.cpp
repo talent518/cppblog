@@ -69,10 +69,10 @@ void users::list(int page)
 	cppdb::result r;
 	data::admin::userlist c;
 
-	sql() << "SELECT COUNT(id) FROM users" << cppdb::row >> c.counts;
+	sql() << "SELECT COUNT(id) FROM users" << cppdb::row >> c.page_records;
 
 	c.page_size = 20;
-	c.page = page;
+	c.curpage = page;
 	c.calc_pages();
 
 	r = sql() <<
@@ -80,7 +80,7 @@ void users::list(int page)
 		"FROM users "
 		"ORDER BY id ASC "
 		"LIMIT ? OFFSET ? " 
-		<< c.page_size << (c.page * c.page_size);
+		<< c.page_size << (c.curpage * c.page_size);
 
 	c.users.reserve(c.page_size);
 

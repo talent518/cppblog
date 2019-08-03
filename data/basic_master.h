@@ -31,14 +31,14 @@ namespace data {
 		booster::function<std::string(std::string const &)> xss;
 		std::string (*latex)(std::string const &);
 
-		ulong counts;
-		uint page_size;
-		long page;
-		long pages;
+		int page_records;
+		int page_size;
+		int curpage;
+		int page_total;
 
 		void calc_pages() {
-			pages = ceil((double) counts / (double) page_size);
-			page = page < 0 ? 0 : (page >= pages ? pages - 1 : page);
+			page_total = ceil((double) page_records / (double) page_size);
+			curpage = curpage < 0 ? 0 : (curpage >= page_total ? page_total - 1 : curpage);
 		}
 
 		std::string multi_page(std::string const &u);

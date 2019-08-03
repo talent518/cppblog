@@ -11,14 +11,13 @@ fieldset, address, pre { margin:5px;}
 #header { text-align:right;}
 
 #news {
-        float: left;
-        margin-left:5px;
+    float: left;
+    padding: 20px 0 20px 20px;
 }
 
 #menu {
-        margin-right:5px;
-        float: right;
-        padding:5px;
+    float: right;
+    padding: 20px 20px 20px 0;
 }
 
 #langlist {
@@ -33,3 +32,6 @@ fieldset, address, pre { margin:5px;}
 .nextpage{
         float:left;
 }
+
+#menu .multi-page .desc {float:left;}
+

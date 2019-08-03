@@ -61,7 +61,7 @@ void summary::prepare(int cat_id,int page)
 	data::blog::summary c;
 	
 	c.page_size = 10;
-	c.page = page;
+	c.curpage = page;
 
 	if(cat_id != 0) {
 		r = sql() << "SELECT name FROM cats WHERE id=?" << cat_id << cppdb::row;
@@ -71,7 +71,7 @@ void summary::prepare(int cat_id,int page)
 		}
 		r >> c.category_name;
 
-		sql() << "SELECT COUNT(post_id) FROM post2cat WHERE cat_id=? AND is_open=1" << cat_id << cppdb::row >> c.counts;
+		sql() << "SELECT COUNT(post_id) FROM post2cat WHERE cat_id=? AND is_open=1" << cat_id << cppdb::row >> c.page_records;
 
 		c.calc_pages();
 		c.id = cat_id;
@@ -87,9 +87,9 @@ void summary::prepare(int cat_id,int page)
 			"	AND post2cat.is_open=1 "
 			"ORDER BY post2cat.publish DESC "
 			"LIMIT ? OFFSET ?" 
-			<< cat_id << c.page_size << (page * c.page_size);
+			<< cat_id << c.page_size << (c.curpage * c.page_size);
 	} else {
-		sql() << "SELECT COUNT(id) FROM posts" << cppdb::row >> c.counts;
+		sql() << "SELECT COUNT(id) FROM posts WHERE is_open=1" << cppdb::row >> c.page_records;
 
 		c.calc_pages();
 		c.id = 0;
@@ -104,7 +104,7 @@ void summary::prepare(int cat_id,int page)
 			"WHERE	posts.is_open=1 "
 			"ORDER BY posts.publish DESC "
 			"LIMIT ? OFFSET ? " 
-			<< c.page_size << (page * c.page_size);
+			<< c.page_size << (c.curpage * c.page_size);
 	}
 
 	c.posts.reserve(c.page_size);

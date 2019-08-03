@@ -8,7 +8,9 @@ namespace apps {
 		public:
 			summary(cppcms::service &s);
 			
-			void prepare();			
+			void prepare();
+			void prepare(int id);
+			void prepare(std::string sid);
 		};
 	}
 }
