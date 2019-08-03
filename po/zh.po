@@ -563,6 +563,30 @@ msgstr "用户名"
 msgid "User list"
 msgstr "用户列表"
 
+msgid "Request parameter error."
+msgstr "请求参数错误。"
+
+msgid "File type is not supported."
+msgstr "文件类型不支持"
+
+msgid "Successful transmission in seconds!"
+msgstr "已秒传成功！"
+
+msgid "Files do not exist and can be uploaded."
+msgstr "文件不存在，可以上传。"
+
+msgid "File block saved successfully!"
+msgstr "文件块保存成功！"
+
+msgid "Upload completed!"
+msgstr "上传完成！"
+
+msgid "File hash value or size not is equals!"
+msgstr "文件哈希值或大小不同！"
+
+msgid "No file!"
+msgstr "没有文件！"
+
 # Please translate LANG as native name of language, for example for French -- `Français'
 #~ msgid "LANG"
 #~ msgstr "简体中文"

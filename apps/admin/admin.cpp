@@ -7,6 +7,7 @@
 #include <apps/admin/options.h>
 #include <apps/admin/categories.h>
 #include <apps/admin/comment.h>
+#include <apps/admin/upload.h>
 #include <cppcms/url_mapper.h>
 #include <cppcms/http_response.h>
 #include <cppcms/session_interface.h>
@@ -49,6 +50,11 @@ admin_master::admin_master(cppcms::service &srv) : cppcms::application(srv)
 		"users",
 		"/users{1}",
 		"/users((/.*)?)",1);
+
+	attach(	new upload(srv),
+		"upload",
+		"/upload{1}",
+		"/upload((/.*)?)",1);
 
 	attach(	new summary(srv),
 		"summary",

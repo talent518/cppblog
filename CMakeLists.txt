@@ -87,6 +87,7 @@ set(BLOG_SRC
 	apps/admin/options.cpp
 	apps/admin/comment.cpp
 	apps/admin/categories.cpp
+	apps/admin/upload.cpp
 	data/basic_master.cpp
 	"${CMAKE_CURRENT_BINARY_DIR}/feed.cpp"
 	"${CMAKE_CURRENT_BINARY_DIR}/admin.cpp"

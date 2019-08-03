@@ -17,7 +17,7 @@
     <% foreach post in publisheds %>
         <ul>
     	<% item %>
-			<li><a href="<% url "/admin/post" using post.id %>"><%= post.title %></a></li>
+			<li><a href="<% url "/admin/post" using post.id %>"><%= post.title %></a> <a href="<% url "/blog/post" using post.id %>" class="preview"><% gt "Preview" %></a></li>
 		<% end %>
 		</ul>
 		<% c++ out() << content.multi_page("page");%>
@@ -30,7 +30,7 @@
         <% foreach page in pages %>
 	        <ul>
         	<% item %>
-			<li><a href="<% url "/admin/page" using page.id %>"><%= page.title %></a><% if not page.is_open %> <% gt "(not published)" %><%end%></li>
+			<li><a href="<% url "/admin/page" using page.id %>"><%= page.title %></a> <% if page.is_open %><a href="<% url "/blog/page" using page.id %>" class="preview"><% gt "Preview" %></a><% else %><% gt "(not published)" %><%end%></li>
 		<% end %>
 		</ul>
 	<% empty %>

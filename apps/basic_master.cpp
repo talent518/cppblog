@@ -463,4 +463,95 @@ namespace apps {
 		return *sql_;
 	}
 
+	std::string basic_master::get(const char *key) {
+		return request().get(key);
+	}
+	std::string basic_master::get(const char *key, const char *def) {
+		std::string str = request().get(key);
+
+		if(str.empty())
+			return def;
+		else
+			return str;
+	}
+	int basic_master::get(const char *key, int def) {
+		std::string str = request().get(key);
+
+		return str.empty() ? def : atoi(str.c_str());
+	}
+	long int basic_master::get(const char *key, long int def) {
+		std::string str = request().get(key);
+
+		return str.empty() ? def : atol(str.c_str());
+	}
+
+	std::string basic_master::post(const char *key) {
+		return request().post(key);
+	}
+	std::string basic_master::post(const char *key, const char *def) {
+		std::string str = request().post(key);
+
+		if(str.empty())
+			return def;
+		else
+			return str;
+	}
+	int basic_master::post(const char *key, int def) {
+		std::string str = request().post(key);
+
+		return str.empty() ? def : atoi(str.c_str());
+	}
+	long int basic_master::post(const char *key, long int def) {
+		std::string str = request().post(key);
+
+		return str.empty() ? def : atol(str.c_str());
+	}
+
+	std::string basic_master::post_or_get(const char *key) {
+		std::string str = request().post(key);
+
+		if(str.empty())
+			return request().get(key);
+		else
+			return str;
+	}
+	std::string basic_master::post_or_get(const char *key, const char *def) {
+		std::string str = post_or_get(key);
+
+		if(str.empty())
+			return def;
+		else
+			return str;
+	}
+	int basic_master::post_or_get(const char *key, int def) {
+		std::string str = post_or_get(key);
+
+		return str.empty() ? def : atoi(str.c_str());
+	}
+	long int basic_master::post_or_get(const char *key, long int def) {
+		std::string str = post_or_get(key);
+
+		return str.empty() ? def : atol(str.c_str());
+	}
+
+	bool basic_master::mkdir(std::string path, bool isfile, int mode) {
+		if(access(path.c_str(), F_OK) == 0)
+			return true;
+		if(!mkdir(path.substr(0, path.rfind("/")), false, mode)) return false;
+
+		return isfile ? true : ::mkdir(path.c_str(), mode) == 0;
+	}
+
+	std::string basic_master::tohex(const unsigned char *str, size_t len) {
+		std::ostringstream ss;
+		char hex[] = "0123456789abcdef";
+
+		for(size_t i=0; i<len; i++) {
+			ss.put(hex[(str[i] >> 4) & 0xF]);
+			ss.put(hex[str[i] & 0xF]);
+		}
+
+		return ss.str();
+	}
+
 }

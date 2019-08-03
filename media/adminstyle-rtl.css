@@ -38,3 +38,5 @@ fieldset, address, pre { margin:5px;}
 .userlist > h1{float:left;}
 .userlist > .multi-page .desc{float:left;}
 
+#menu a.preview, #news a.preview {left:0px;right:auto;}
+
