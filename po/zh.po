@@ -450,7 +450,7 @@ msgstr "添加评论："
 #: views/blog/post.tmpl:70
 #: fuzzy
 msgid "Message content are mandatory!"
-msgstr "名字，E-Mail及正文都是必填的。"
+msgstr "正文是必填的。"
 
 #: views/blog/post.tmpl:82
 msgid "Name, E-Mail, Message content are mandatory!"
