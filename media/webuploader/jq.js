@@ -20,10 +20,16 @@
 		swf: '/swf/Uploader.swf',
 		server: location.href,
 		change: function(file) {},
-		afterChange: function(uploader, file, cur, prev) {}
+		afterChange: function(uploader, file, cur, prev) {},
+		options: {
+			threads:3,
+			chunked:true,
+			chunkSize:2*1024*1024,
+			chunkRetry: 3
+		}
 	};
 	$.fn.webuploader = function(options) {
-		options = $.extend({}, _options, options);
+		options = $.extend(true, {}, _options, options);
 
 		var $wrap = this,
 
@@ -60,7 +66,7 @@
 			uploader;
 
 		// 实例化
-		uploader = WebUploader.create($.extend({
+		uploader = WebUploader.create($.extend(true, {
 			pick: options.pick,
 			dnd: options.dnd,
 			chunked: true,

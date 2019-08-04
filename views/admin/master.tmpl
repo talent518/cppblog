@@ -99,7 +99,8 @@ tinymce.init({
 	file_picker_callback: function (callback, value, meta) {
 		window.tinymceFilePicker = {callback:callback, value:value, meta:meta};
 		$('#j-webuploader-bg,#j-webuploader').show();
-	}
+	},
+	convert_urls:false
 });
 
 $.messageDialog = function(msg) {
@@ -120,7 +121,7 @@ window.webuploader = $('#j-webuploader').webuploader({
 			if($.isPlainObject(json) && json.exists && json.status) {
 				/* Provide file and text for the link dialog */
 				if (window.tinymceFilePicker.meta.filetype === 'file') {
-					window.tinymceFilePicker.callback(json.fileUrl, { text: json.fileName });
+					window.tinymceFilePicker.callback(confirm('<% gt "Is it a download link?" %>') ? '<% c++ out() << content.app().url("/blog/download", "MD5", 0, "NAME"); %>'.replace('/MD5/', '/' + file.md5 + '/').replace('/0/', '/' + file.size + '/').replace('/NAME', '/' + encodeURI(json.fileName)) : json.fileUrl, { text: json.fileName });
 				}
 
 				/* Provide image and alt text for the image dialog */
@@ -132,11 +133,10 @@ window.webuploader = $('#j-webuploader').webuploader({
 				if (window.tinymceFilePicker.meta.filetype === 'media') {
 					window.tinymceFilePicker.callback(json.fileUrl, { source2: json.fileName, poster: json.fileUrl });
 				}
+				
+				$('#j-webuploader-bg,#j-webuploader').hide();
+				window.webuploader.setState('pedding');
 			}
-		},
-		onUploadComplete: function() {
-			$('#j-webuploader-bg,#j-webuploader').hide();
-			window.webuploader.setState('pedding');
 		}
 	}
 });
@@ -164,6 +164,7 @@ tinymce.init({
 		window.tinymceFilePicker = {callback:callback, value:value, meta:meta};
 		$('#j-webuploader-bg,#j-webuploader').show();
 	},
+	convert_urls:false,
 	templates: [
 		{ title: 'Some title 1', description: 'Some desc 1', content: 'My content' },
 		{ title: 'Some title 2', description: 'Some desc 2', content: '<div class="mceTmpl"><span class="cdate">cdate</span><span class="mdate">mdate</span>My content2</div>' }

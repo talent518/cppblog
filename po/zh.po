@@ -587,6 +587,9 @@ msgstr "文件哈希值或大小不同！"
 msgid "No file!"
 msgstr "没有文件！"
 
+msgid "Is it a download link?"
+msgstr "是下载链接吗？"
+
 # Please translate LANG as native name of language, for example for French -- `Français'
 #~ msgid "LANG"
 #~ msgstr "简体中文"

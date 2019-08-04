@@ -2,6 +2,7 @@
 #include <apps/blog/page.h>
 #include <apps/blog/post.h>
 #include <apps/blog/summary.h>
+#include <apps/blog/download.h>
 
 namespace apps {
 namespace blog {
@@ -17,6 +18,11 @@ blog_master::blog_master(cppcms::service &s) : cppcms::application(s)
 		"post",
 		"/post{1}",
 		"/post((/.*)?)",1);
+
+	attach(	new download(s),
+			"download",
+			"/download{1}",
+			"/download(/.+)",1);
 
 	attach(	new summary(s),
 		"summary",

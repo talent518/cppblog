@@ -77,7 +77,8 @@ void upload::prepare()
 
 			std::auto_ptr<cppcms::crypto::message_digest> md5digest = cppcms::crypto::message_digest::md5();
 			std::ifstream ifs;
-			char buffer[512];
+			char buffer[2048];
+			size_t n;
 
 			if(chunks == 1) {
 				mkdir(fpath.str(), true);
@@ -87,14 +88,19 @@ void upload::prepare()
 				ifs.open(fpath.str().c_str());
 				while(!ifs.eof()) {
 					ifs.read(buffer, sizeof(buffer));
-					md5digest->append(buffer, ifs.gcount());
+					n = ifs.gcount();
+					md5digest->append(buffer, n);
 				}
 				ifs.close();
 			} else {
-				cpath << docroot << bpath.str() << "-" << chunk << ".part";
+				cpath << docroot << bpath.str() << "-" << chunk << ".part.lock";
 
 				mkdir(cpath.str(), true);
 				files[0]->save_to(cpath.str());
+				{
+					std::string _s = cpath.str();
+					rename(cpath.str().c_str(), _s.substr(0, _s.size() - 5).c_str());
+				}
 
 				for(size_t i=0; i<chunks; i++) {
 					cpath.str("");
@@ -116,12 +122,12 @@ void upload::prepare()
 						ifs.open(cpath.str().c_str());
 						while(!ifs.eof()) {
 							ifs.read(buffer, sizeof(buffer));
-							size_t n = ifs.gcount();
+							n = ifs.gcount();
 							of.write(buffer, n);
+							of.flush();
 							md5digest->append(buffer, n);
 						}
 						ifs.close();
-						of.flush();
 						unlink(cpath.str().c_str());
 					}
 
@@ -136,6 +142,8 @@ void upload::prepare()
 				if(md5.compare(_md5) || lstat(fpath.str().c_str(), &st) || (size_t) st.st_size != size) {
 					json["status"].boolean(false);
 					json["message"] = translate("File hash value or size not is equals!");
+
+					unlink(fpath.str().c_str());
 					goto end;
 				}
 
