@@ -55,8 +55,14 @@ void download::prepare(std::string md5, std::string size, std::string name)
 	std::ifstream f(ss.str().c_str());
 	if(!f)
 		response().make_error_response(404);
-	else
+	else {
+		f.seekg(0, std::ios_base::end);
+		response().content_length(f.tellg());
+		f.clear();//必须先调用这个，清除flag
+		f.seekg(0);//才能用这个设定到文件开头
+		response().io_mode(cppcms::http::response::nogzip);
 		response().out() << f.rdbuf();
+	}
 }
 
 } // admin
