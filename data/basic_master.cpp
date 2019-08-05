@@ -19,8 +19,12 @@ namespace data {
 			for(;b<=e;b++) { \
 				if(b == curpage) \
 					ss << "<span class=\"page cur\">" << b+1 << "</span>" << std::endl; \
-				else \
-					ss << "<a href=\"" << url << "\" class=\"page\">" << b+1 << "</a>" << std::endl; \
+				else { \
+					ss << "<a href=\"" << url; \
+					std::string s = app().request().query_string(); \
+					if(!s.empty()) ss << "?" << s; \
+					ss << "\" class=\"page\">" << b+1 << "</a>" << std::endl; \
+				} \
 			} \
 		} else { \
 			ss << "<span class=\"page cur\">1</span>" << std::endl; \

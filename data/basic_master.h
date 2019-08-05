@@ -36,11 +36,20 @@ namespace data {
 		int curpage;
 		int page_total;
 
-		basic_master(): latex(NULL), page_records(0), page_size(0), curpage(0), page_total(0) {}
+		basic_master(): latex(NULL), page_records(0), page_size(10), curpage(0), page_total(1) {}
 
 		void calc_pages() {
-			page_total = ceil((double) page_records / (double) page_size);
-			curpage = curpage < 0 ? 0 : (curpage >= page_total ? page_total - 1 : curpage);
+			if(page_records) {
+				if(page_size <= 0) {
+					std::cout << "The basic_master.page_size must be greater than 0" << std::endl;
+					page_size = 10;
+				}
+				page_total = ceil((double) page_records / (double) page_size);
+				curpage = curpage < 0 ? 0 : (curpage >= page_total ? page_total - 1 : curpage);
+			} else {
+				page_total = 1;
+				curpage = 0;
+			}
 		}
 
 		std::string multi_page(std::string const &u);
