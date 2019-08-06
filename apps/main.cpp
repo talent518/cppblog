@@ -3,6 +3,7 @@
 #include <apps/blog/blog.h>
 #include <apps/feed/feed.h>
 #include <apps/admin/admin.h>
+#include <apps/media.h>
 
 #include <cppcms/service.h>
 #include <cppcms/applications_pool.h>
@@ -46,6 +47,8 @@ public:
 			"feed",
 			"/rss{1}",
 			"/rss((/.*)?)",1);
+
+		if(!settings().get("file_server.enable", false) && settings().get("file_server.media", true)) attach( new apps::media(s), "media", "/media{1}", "/media(/.+)", 1);
 
 		attach( new apps::blog::blog_master(s),
 			"blog",

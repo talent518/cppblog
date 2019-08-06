@@ -78,6 +78,7 @@ set(BLOG_SRC
 	apps/captcha.cpp
 	apps/config.cpp
 	apps/main.cpp
+	apps/media.cpp
 	apps/admin/admin.cpp
 	apps/admin/users.cpp
 	apps/admin/summary.cpp

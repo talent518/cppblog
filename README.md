@@ -14,3 +14,6 @@ Execute the following commands:
 make run
 ```
 
+# Support breakpoint continuation
+  * file_server.enable is set to false
+  * file_server.media is set to true(default: true)

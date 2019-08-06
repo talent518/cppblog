@@ -112,8 +112,8 @@ window.webuploader = $('#j-webuploader').webuploader({
 	swf:'<%= media %>/webuploader/flash.swf',
 	accept: {
 		title: '图片/视频/文档/压缩包',
-		extensions: 'gif,jpg,jpeg,bmp,png,mp4,avi,flv,f4v,webm,ogv,bz2,xz,gz,tar,rar,zip,7z,cab,gzip,doc,docx,xls,xlsx,ppt,pptx,pdf,csv,txt',
-		mimeTypes: 'image/*,video/*,application/octet-stream'
+		extensions: 'gif,jpeg,jpg,bmp,png,mp4,avi,flv,f4v,webm,ogv,bz2,xz,gz,tar,rar,zip,7z,cab,doc,docx,xls,xlsx,ppt,pptx,pdf,csv,txt',
+		mimeTypes: '*/*'
 	},
 	formData: {_csrf:'<% c++ out() << content.app().session().get_csrf_token(); %>'},
 	options: {

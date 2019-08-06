@@ -57,10 +57,25 @@ void download::prepare(std::string md5, std::string size, std::string name)
 		response().make_error_response(404);
 	else {
 		f.seekg(0, std::ios_base::end);
-		response().content_length(f.tellg());
-		f.clear();//必须先调用这个，清除flag
-		f.seekg(0);//才能用这个设定到文件开头
-		response().io_mode(cppcms::http::response::nogzip);
+		size_t size = f.tellg();
+
+		std::ostringstream orange;
+		size_t b = 0, e = size - 1;
+		sscanf(request().http_range().c_str(), "bytes=%lu-%lu", &b, &e);
+
+		orange << "bytes " << b << "-" << e << "/" << size;
+
+		size_t n = e-b+1;
+
+		response().content_length(n);
+		response().accept_ranges("bytes");
+		response().content_range(orange.str());
+
+		//response().io_mode(cppcms::http::response::asynchronous);
+		if(n != size) response().status(206);
+
+		f.clear();
+		f.seekg(b);
 		response().out() << f.rdbuf();
 	}
 }
