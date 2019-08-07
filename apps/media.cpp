@@ -52,6 +52,7 @@ media::media(cppcms::service &s) : cppcms::application(s)
 	mime_[".bmp"]   =      "image/bmp";
 	mime_[".svg"]   =      "image/svg+xml";
 	mime_[".svgz"]  =      "image/svg+xml";
+	mime_[".ico"]   =      "image/x-icon";
 
 	// text file
 	mime_[".js"]    =      "text/javascript";
@@ -105,29 +106,39 @@ void media::prepare(std::string path)
 	else
 		response().content_type("application/octet-stream");
 
-	std::ifstream f(ss.str().c_str());
-	if(!f)
+	struct stat st;
+	if(lstat(ss.str().c_str(), &st))
 		response().make_error_response(404);
 	else {
-		f.seekg(0, std::ios_base::end);
-		size_t size = f.tellg();
-
 		std::ostringstream orange;
-		size_t b = 0, e = size - 1;
-		sscanf(request().http_range().c_str(), "bytes=%lu-%lu", &b, &e);
+		size_t b = 0, e = st.st_size - 1;
 
-		orange << "bytes " << b << "-" << e << "/" << size;
+		if(!request().http_range().empty()) {
+			sscanf(request().http_range().c_str(), "bytes=%lu-%lu", &b, &e);
+			orange << "bytes " << b << "-" << e << "/" << st.st_size;
+			response().content_range(orange.str());
+		}
 
 		size_t n = e-b+1;
+		time_t t = time(NULL);
 
 		response().content_length(n);
 		response().accept_ranges("bytes");
-		response().content_range(orange.str());
+		response().cache_control("max-age=604800");
+		response().date(t);
+		response().age(86400);
+		response().last_modified(st.st_mtime);
+		response().expires(t + 604800);
+		response().vary("Accept-Encoding");
+
+		std::ostringstream etag;
+		etag << std::hex << st.st_size << "-" << std::hex << st.st_mtime;
+		response().etag(etag.str());
 
 		//response().io_mode(cppcms::http::response::asynchronous);
-		if(n != size) response().status(206);
+		if(n != st.st_size) response().status(206);
 
-		f.clear();
+		std::ifstream f(ss.str().c_str());
 		f.seekg(b);
 		response().out() << f.rdbuf();
 	}
