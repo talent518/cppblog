@@ -30,7 +30,7 @@
         <% foreach page in pages %>
 	        <ul>
         	<% item %>
-			<li><a href="<% url "/admin/page" using page.id %>"><%= page.title %></a> <% if page.is_open %><a href="<% url "/blog/page" using page.id %>" class="preview"><% gt "Preview" %></a><% else %><% gt "(not published)" %><%end%></li>
+			<li><a href="<% url "/admin/page" using page.id %>"><%= page.title %></a> <% if page.is_open %><a href="<% url "/blog/page" using page.id %>" class="preview"><% gt "Preview" %></a><% else %><span class="preview"><% gt "Unpublished" %></span><%end%></li>
 		<% end %>
 		</ul>
 	<% empty %>

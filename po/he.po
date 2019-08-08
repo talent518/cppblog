@@ -241,7 +241,7 @@ msgid "Pages"
 msgstr "דפים"
 
 #: views/admin/summary.tmpl:22
-msgid "(not published)"
+msgid "Unpublished"
 msgstr "(לא פורסם)"
 
 #: views/admin/summary.tmpl:26

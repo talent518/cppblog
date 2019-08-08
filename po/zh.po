@@ -249,8 +249,8 @@ msgid "Pages"
 msgstr "页面"
 
 #: views/admin/summary.tmpl:22
-msgid "(not published)"
-msgstr "（暂未发布）"
+msgid "Unpublished"
+msgstr "未发布"
 
 #: views/admin/summary.tmpl:26
 msgid "No pages"
