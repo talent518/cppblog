@@ -66,7 +66,7 @@
 <div id="j-webuploader-bg" class="web-uploader-bg" style="display:none;"></div>
 <div id="j-webuploader" class="web-uploader-wrap" style="display:none;">
 	<div class="web-uploader">
-		<span class="web-uploader-close" onclick="$('#j-webuploader-bg,#j-webuploader').hide();window.webuploader.setState('pedding');">关闭</span>
+		<span class="web-uploader-close" onclick="$('#j-webuploader-bg,#j-webuploader').hide();window.webuploader.setState('pedding');$('#j-webuploader .uploadBtn').text('开始上传');">关闭</span>
 		<div class="queueList">
 			<div id="dndArea" class="placeholder">
 				<div id="filePicker"></div>
@@ -112,8 +112,8 @@ window.webuploader = $('#j-webuploader').webuploader({
 	swf:'<%= media %>/webuploader/flash.swf',
 	accept: {
 		title: '图片/视频/文档/压缩包',
-		extensions: 'gif,jpeg,jpg,bmp,png,mp4,avi,flv,f4v,webm,ogv,bz2,xz,gz,tar,rar,zip,7z,cab,doc,docx,xls,xlsx,ppt,pptx,pdf,csv,txt',
-		mimeTypes: '*/*'
+		extensions: 'gif,jpeg,jpg,bmp,png,mp4,avi,flv,f4v,webm,ogv,bz2,xz,gz,tar,rar,zip,7z,cab,tgz,tbz,doc,docx,xls,xlsx,ppt,pptx,pdf,csv,txt',
+		mimeTypes: 'image/*,video/*,text/csv,application/x-gzip,application/x-tgz,application/x-tar,application/zip,application/x-bzip,application/x-bzip-compressed-tar,application/x-rar-compressed,application/x-7z-compressed,application/vnd.ms-cab-compressed,application/x-xz,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf'
 	},
 	formData: {_csrf:'<% c++ out() << content.app().session().get_csrf_token(); %>'},
 	options: {
@@ -134,8 +134,9 @@ window.webuploader = $('#j-webuploader').webuploader({
 					window.tinymceFilePicker.callback(json.fileUrl, { source2: json.fileName, poster: json.fileUrl });
 				}
 				
-				$('#j-webuploader-bg,#j-webuploader').hide();
+				$('#j-webuploader-bg,#j-webuploader,#j-webuploader .filelist').hide();
 				window.webuploader.setState('pedding');
+				$('#j-webuploader .uploadBtn').text('开始上传');
 			}
 		}
 	}

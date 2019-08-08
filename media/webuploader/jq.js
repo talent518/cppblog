@@ -62,8 +62,31 @@
 			// 所有文件的进度信息，key为file id
 			percentages = {},
 
+			// 优化retina, 在retina下这个值是2
+			ratio = window.devicePixelRatio || 1,
+
+			// 缩略图大小
+			thumbnailWidth = 110 * ratio,
+			thumbnailHeight = 110 * ratio,
+
+			supportTransition = (function(){
+				var s = document.createElement('p').style,
+					r = 'transition' in s ||
+						  'WebkitTransition' in s ||
+						  'MozTransition' in s ||
+						  'msTransition' in s ||
+						  'OTransition' in s;
+				s = null;
+				return r;
+			})(),
+
 			// WebUploader实例
 			uploader;
+
+		if ( !WebUploader.Uploader.support() ) {
+			alert( 'Web Uploader 不支持您的浏览器！如果你使用的是IE浏览器，请尝试升级 flash 播放器');
+			throw new Error( 'WebUploader does not support the browser you are using.' );
+		}
 
 		// 实例化
 		uploader = WebUploader.create($.extend(true, {
@@ -85,16 +108,16 @@
 		// 当有文件添加进来时执行，负责view的创建
 		function addFile(file) {
 			var $li = $('<li id="' + file.id + '">' +
-				'<p class="title">' + file.name + '</p>' +
+				'<p class="item"><span class="cancel">删除</span><span class="rotateRight">向右旋转</span><span class="rotateLeft">向左旋转</span><span class="preview">预览</span><span class="size"></span><span class="title">' + file.name + '</span><span class="message"></span></p>' +
 				'<p class="imgWrap"></p>' +
 				'<p class="progress"><span></span></p>' +
 				'</li>'),
 
-				$btns = $('<div class="file-panel">' +
-					'<span class="cancel">删除</span>' + '</div>').appendTo($li),
-				$prgress = $li.find('p.progress span'),
-				$wrap = $li.find('p.imgWrap'),
-				$info = $('<p class="error"></p>'),
+				$progress = $li.find('p.progress span'),
+				$msg = $li.find('span.message'),
+				$size = $li.find('span.size'),
+				$imgWrap = $li.find('p.imgWrap'),
+				$preview = $li.find('span.preview'),
 
 				showError = function(code) {
 					switch (code) {
@@ -107,25 +130,36 @@
 							break;
 					}
 
-					$info.text(text).appendTo($li);
+					$msg.text(text);
 				};
 
 			if (file.getStatus() === 'invalid') {
 				showError(file.statusText);
 			} else {
-				$wrap.text('大小：' + file.size);
+				$size.text(file.size);
 				percentages[file.id] = [file.size, 0];
 				file.rotation = 0;
+
+				uploader.makeThumb( file, function( error, src ) {
+					if ( error ) {
+						$imgWrap.hide().text( '不能预览' );
+						$li.find('span.rotateRight,span.rotateLeft').hide();
+						//$preview.hide();
+						return;
+					}
+
+					var img = $('<img src="'+src+'">');
+					$imgWrap.show().empty().append( img );
+					$li.find('span.rotateRight,span.rotateLeft').show();
+					//$preview.show();
+				}, thumbnailWidth, thumbnailHeight );
 			}
 
 			file.on('statuschange', function(cur, prev) {
-				$wrap.text('');
+				$msg.text('');
 				options.change.call(uploader, file, cur, prev);
 				if (prev === 'progress') {
-					$prgress.hide().width(0);
-				} else if (prev === 'queued') {
-					$li.off('mouseenter mouseleave');
-					$btns.remove();
+					$progress.hide().width(0);
 				}
 
 				// 成功
@@ -137,33 +171,71 @@
 				} else if (cur === 'queued') {
 					percentages[file.id][1] = 0;
 				} else if (cur === 'progress') {
-					$info.remove();
-					$prgress.css({
+					$progress.css({
 						display: 'block',
-						width: '10%'
+						width: '0%'
 					});
 				} else if (cur === 'complete') {
-					$li.append('<span class="success"></span>');
+					$msg.text('上传完成');
 				}
 
 				$li.removeClass('state-' + prev).addClass('state-' + cur);
 				options.afterChange.call(uploader, file, cur, prev);
 			});
 
-			$li.on('mouseenter', function() {
-				$btns.stop().animate({
-					height: 30
-				});
-			});
+			//$li.find('span.preview').hover(function() {
+			//	$imgWrap.show();
+			//},function() {
+			//	$imgWrap.hide();
+			//});
 
-			$li.on('mouseleave', function() {
-				$btns.stop().animate({
-					height: 0
-				});
-			});
+			$li.on( 'click', 'span.cancel,span.rotateRight,span.rotateLeft', function() {
+				var index = $(this).index(),
+					deg;
 
-			$btns.on('click', 'span', function() {
-				uploader.removeFile(file);
+				switch ( index ) {
+					case 0:
+						uploader.removeFile( file );
+						return;
+
+					case 1:
+						file.rotation += 90;
+						break;
+
+					case 2:
+						file.rotation -= 90;
+						break;
+					default:
+						return;
+				}
+
+				if ( supportTransition ) {
+					deg = 'rotate(' + file.rotation + 'deg)';
+					$imgWrap.css({
+						'-webkit-transform': deg,
+						'-mos-transform': deg,
+						'-o-transform': deg,
+						'transform': deg
+					});
+				} else {
+					$imgWrap.css( 'filter', 'progid:DXImageTransform.Microsoft.BasicImage(rotation='+ (~~((file.rotation/90)%4 + 4)%4) +')');
+					// use jquery animate to rotation
+					// $({
+					//     rotation: rotation
+					// }).animate({
+					//     rotation: file.rotation
+					// }, {
+					//     easing: 'linear',
+					//     step: function( now ) {
+					//         now = now * Math.PI / 180;
+
+					//         var cos = Math.cos( now ),
+					//             sin = Math.sin( now );
+
+					//         $imgWrap.css( 'filter', "progid:DXImageTransform.Microsoft.Matrix(M11=" + cos + ",M12=" + (-sin) + ",M21=" + sin + ",M22=" + cos + ",SizingMethod='auto expand')");
+					//     }
+					// });
+				}
 			});
 
 			$li.appendTo($queue);
@@ -171,11 +243,9 @@
 
 		// 负责view的销毁
 		function removeFile(file) {
-			var $li = $('#' + file.id);
-
 			delete percentages[file.id];
 			updateTotalProgress();
-			$li.off().find('.file-panel').off().end().remove();
+			$('#' + file.id).remove();
 		}
 
 		function updateTotalProgress() {
@@ -209,7 +279,6 @@
 					text = '已成功上传' + stats.successNum + '张照片至XX相册，' +
 						stats.uploadFailNum + '张照片上传失败，<a class="retry" href="#">重新上传</a>失败图片或<a class="ignore" href="#">忽略</a>'
 				}
-
 			} else {
 				stats = uploader.getStats();
 				text = '共' + fileCount + '张（' +
@@ -324,7 +393,6 @@
 
 			removeFile(file);
 			updateTotalProgress();
-
 		};
 
 		uploader.on('all', function(type) {
@@ -404,7 +472,7 @@
 				return true;
 			},
 			onUploadError: function(file, reason) {
-				$('#'+file.id).find('p.imgWrap').text(reason);
+				$('#'+file.id).find('span.message').text(reason);
 			}
 		});
 		
@@ -420,27 +488,32 @@
 				owner = this.owner,
 				server = me.options.server,
 				deferred = WebUploader.Deferred(),
-				blob = file.source.getSource(),
-				$percent = $('.progress span', '#' + file.id),
-				md5Complete,
-				isTried = false;
+				$percent = $('#' + file.id + ' .progress span'),
+				percent = 0,
+				timer = setInterval(function(){percent++;$percent.css('width', percent + '%');},file.size/1024/1024/4.625174311926605),
+				md5Complete;
 
 			owner.md5File(file).progress(function(percentage) {
+				clearInterval(timer);
 				$percent.css('width', percentage * 100 + '%');
 			}).then(md5Complete = function (ret) {
+				clearInterval(timer);
+				$percent.css('width', '100%');
 				file.md5 = ret;
 				$.ajax(server, {
 					dataType: 'json',
 					data: {
 						md5: ret,
 						name: file.name,
-						size: file.size
+						size: file.size,
+						rotation: file.rotation
 					},
 					timeout: 10000,
 					success: function( res ) {
+						owner.options.formData.rotation = file.rotation;
 						if ( res.exists || !res.status ) {
 							owner.skipFile( file );
-							$('#'+file.id).find('p.imgWrap').text(res.message);
+							$('#'+file.id).find('span.message').text(res.message);
 							if(res.status) {
 								owner.trigger('uploadSuccess', file, res);
 								owner.trigger('uploadComplete', file);
@@ -462,7 +535,7 @@
 						} else if(status === 'notmodified') {
 							reason = '数据未修改(变更)！';
 						}
-						file.setStatus( 'error', reason );
+						file.setStatus('error', reason);
 						owner.trigger('uploadError', file, reason);
 						owner.skipFile( file );
 						deferred.resolve( true );
