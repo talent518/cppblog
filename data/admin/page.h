@@ -7,11 +7,11 @@ namespace data {
 			struct page_form : public cppcms::form {
 				cppcms::widgets::text title;
 				tinymce content;
-				cppcms::widgets::submit save; 
-				cppcms::widgets::submit save_and_continue; 
-				cppcms::widgets::submit change_status; 
-				cppcms::widgets::submit remove; 
-				cppcms::widgets::checkbox really_remove; 
+				cppcms::widgets::submit save;
+				cppcms::widgets::submit save_and_continue;
+				cppcms::widgets::submit change_status;
+				cppcms::widgets::submit remove;
+				cppcms::widgets::checkbox really_remove;
 
 				cppcms::form inputs;
 				cppcms::form buttons;

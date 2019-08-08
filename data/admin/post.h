@@ -10,11 +10,13 @@ namespace data {
 				cppcms::widgets::textarea abstract;
 				tinymce content;
 
-				cppcms::widgets::submit save; 
-				cppcms::widgets::submit save_and_continue; 
-				cppcms::widgets::submit change_status; 
-				cppcms::widgets::submit remove; 
-				cppcms::widgets::checkbox really_remove; 
+				cppcms::widgets::submit save;
+				cppcms::widgets::submit save_and_continue;
+				cppcms::widgets::submit change_status;
+				cppcms::widgets::submit remove;
+				cppcms::widgets::checkbox really_remove;
+
+				cppcms::widgets::hidden backurl;
 
 				std::vector<cppcms::widgets::checkbox *> add_to_cat_list;
 				std::vector<cppcms::widgets::checkbox *> del_from_cat_list;
@@ -51,6 +53,7 @@ namespace data {
 					buttons.add(change_status);
 					buttons.add(remove);
 					buttons.add(really_remove);
+					buttons.add(backurl);
 					add(inputs);
 					add(buttons);
 					add(add_to_cat);

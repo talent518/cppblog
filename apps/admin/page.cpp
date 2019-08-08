@@ -47,7 +47,7 @@ void page::prepare_shared(int id)
 		c.id = id;
 		cppdb::result r;
 		if(is_post) {
-			r= sql() << 
+			r= sql() <<
 				"SELECT is_open "
 				"FROM pages "
 				"WHERE id=?" << id << cppdb::row;
@@ -87,9 +87,9 @@ void page::prepare_shared(int id)
 					open_status = 1;
 
 				cppdb::statement st;
-				st = sql() << 
+				st = sql() <<
 					"INSERT INTO pages(author_id,title,content,is_open) "
-					"VALUES(?,?,?,?)" 
+					"VALUES(?,?,?,?)"
 					<< session().get<int>("id")
 					<< c.form.title.value()
 					<< c.form.content.value()
@@ -105,8 +105,7 @@ void page::prepare_shared(int id)
 					response().set_redirect_header(url("/admin/summary"));
 				return;
 
-			}
-			else {
+			} else {
 				if(c.form.remove.value()) {
 					sql() << "DELETE FROM pages where id=?" << id <<cppdb::exec;
 					if(is_open) {
@@ -123,10 +122,10 @@ void page::prepare_shared(int id)
 					open_status = open_status ^ 1;
 				sql()<< "UPDATE pages "
 					"SET title=?,content=?,is_open=? "
-					"WHERE id=?" 
+					"WHERE id=?"
 					<< c.form.title.value()
 					<< c.form.content.value()
-					<< open_status 
+					<< open_status
 					<< id << cppdb::exec;
 				if(open_status || c.form.change_status.value()) {
 					std::ostringstream ss;
@@ -135,9 +134,9 @@ void page::prepare_shared(int id)
 					cache().rise("pages");
 				}
 				if(c.form.change_status.value() || c.form.save.value()) {
-					if(!open_status) 
+					if(!open_status)
 						response().set_redirect_header(url("/admin/summary"));
-					else 
+					else
 						response().set_redirect_header(url("/blog/page",id));
 					return;
 				}

@@ -50,7 +50,7 @@ void post::prepare_shared(int id)
 	if(id!=0){
 		c.id = id;
 		if(is_post) {
-			r= sql() << 
+			r= sql() <<
 				"SELECT is_open "
 				"FROM posts "
 				"WHERE id=?" << id << cppdb::row;
@@ -75,7 +75,7 @@ void post::prepare_shared(int id)
 			c.form.abstract.value(r.get<std::string>(2));
 			c.form.content.value(r.get<std::string>(3));
 		}
-			
+
 		// get all categories the post belong to
 		r = sql() <<
 			"SELECT post2cat.cat_id,cats.name "
@@ -128,11 +128,11 @@ void post::prepare_shared(int id)
 					open_status = 1;
 				{
 					cppdb::transaction tr(sql());
-			
+
 					cppdb::statement st;
-					st = sql() << 
+					st = sql() <<
 						"INSERT INTO posts(author_id,title,abstract,content,publish,is_open) "
-						"VALUES(?,?,?,?,?,?)" 
+						"VALUES(?,?,?,?,?,?)"
 						<< session().get<int>("id")
 						<< c.form.title.value()
 						<< c.form.abstract.value()
@@ -145,7 +145,7 @@ void post::prepare_shared(int id)
 						if(!cb->value())
 							continue;
 						sql()<<	"INSERT INTO post2cat(post_id,cat_id,publish,is_open) "
-							"VALUES(?,?,?,?)" 
+							"VALUES(?,?,?,?)"
 							<< id
 							<< atoi(cb->identification().c_str())
 							<< now
@@ -187,12 +187,12 @@ void post::prepare_shared(int id)
 					if(c.form.change_status.value() && open_status) {
 						sql()<< "UPDATE posts "
 							"SET title=?,abstract=?,content=?,publish=?,is_open=? "
-							"WHERE id=?" 
+							"WHERE id=?"
 							<< c.form.title.value()
 							<< c.form.abstract.value()
 							<< c.form.content.value()
 							<< now
-							<< open_status 
+							<< open_status
 							<< id << cppdb::exec;
 						sql()<< "UPDATE post2cat "
 							"SET publish=?, is_open=? "
@@ -201,11 +201,11 @@ void post::prepare_shared(int id)
 					else {
 						sql()<< "UPDATE posts "
 							"SET title=?,abstract=?,content=?,is_open=? "
-							"WHERE id=?" 
+							"WHERE id=?"
 							<< c.form.title.value()
 							<< c.form.abstract.value()
 							<< c.form.content.value()
-							<< open_status 
+							<< open_status
 							<< id << cppdb::exec;
 
 						// if we need this to have correct timestamp synchronized
@@ -220,17 +220,17 @@ void post::prepare_shared(int id)
 					if(c.form.change_status.value()) {
 						cache().rise("cat_0"); // publish or unpublish
 					}
-					
+
 					std::ostringstream ss;
 					ss << "post_" << id;
 					cache().rise(ss.str());
-					
+
 					for(unsigned i=0;i<c.form.add_to_cat_list.size();i++) {
 						cppcms::widgets::checkbox *cb = c.form.add_to_cat_list[i];
 						if(!cb->value())
 							continue;
 						sql()<<	"INSERT INTO post2cat(post_id,cat_id,publish,is_open) "
-							"VALUES(?,?,?,?)" 
+							"VALUES(?,?,?,?)"
 							<< id
 							<< atoi(cb->identification().c_str())
 							<< now
@@ -253,18 +253,20 @@ void post::prepare_shared(int id)
 					}
 
 					tr.commit();
-					
-				} // end of transaction 
+
+				} // end of transaction
 
 				if(c.form.save.value() || c.form.change_status.value()) {
-					response().set_redirect_header(url("/admin/summary"));
-				}
-				else {
+					std::string backurl = c.form.backurl.value();
+					response().set_redirect_header(backurl.empty() ? url("/admin/summary") : backurl);
+				} else {
 					response().set_redirect_header(url("/admin/post",id));
 				}
 			}  // else if id
 		} // if valid
-	} // if post
+	} else { // if post
+		c.form.backurl.value(request().http_referer());
+	}
 	master::prepare(c);
 	render("admin_skin","post",c);
 }
