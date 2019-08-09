@@ -7,7 +7,7 @@
     <% foreach post in posts %>
         <ul>
     	<% item %>
-			<li><a href="<% url "/admin/post" using post.id %>"><%= post.title %></a></li>
+			<li><a href="<% url "/admin/post" using post.id %>"><%= post.title %></a> <a href="<% url "/blog/post/preview" using post.id %>" class="preview"><% gt "Preview" %></a></li>
 		<% end %>
 		</ul>
 	<% empty %>
@@ -30,7 +30,7 @@
         <% foreach page in pages %>
 	        <ul>
         	<% item %>
-			<li><a href="<% url "/admin/page" using page.id %>"><%= page.title %></a> <% if page.is_open %><a href="<% url "/blog/page" using page.id %>" class="preview"><% gt "Preview" %></a><% else %><span class="preview"><% gt "Unpublished" %></span><%end%></li>
+			<li><a href="<% url "/admin/page" using page.id %>"><%= page.title %></a> <% if page.is_open %><a href="<% url "/blog/page" using page.id %>" class="preview"><% gt "Preview" %></a><% else %><a href="<% url "/blog/page/preview" using page.id %>" class="preview"><% gt "Unpublished" %></a><%end%></li>
 		<% end %>
 		</ul>
 	<% empty %>

@@ -157,13 +157,13 @@ void post::prepare_shared(int id)
 						cache().rise("cat_0"); // insert
 					tr.commit();
 				}
-				if(c.form.save_and_continue.value())
-					response().set_redirect_header(url("/admin/post",id));
-				else
+				if(c.form.save_and_continue.value()) {
+					c.id = id;
+				} else {
 					response().set_redirect_header(url("/admin/summary"));
-				return;
-			} // end of if id == 0
-			else {
+					return;
+				}
+			} else { // end of if id == 0
 				if(c.form.remove.value()) {
 					cppdb::transaction tr(sql());
 					sql() << "DELETE FROM comments WHERE post_id = ?" << id << cppdb::exec;
@@ -259,8 +259,6 @@ void post::prepare_shared(int id)
 				if(c.form.save.value() || c.form.change_status.value()) {
 					std::string backurl = c.form.backurl.value();
 					response().set_redirect_header(backurl.empty() ? url("/admin/summary") : backurl);
-				} else {
-					response().set_redirect_header(url("/admin/post",id));
 				}
 			}  // else if id
 		} // if valid

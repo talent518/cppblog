@@ -97,14 +97,15 @@ void page::prepare_shared(int id)
 				if(open_status || c.form.change_status.value())
 					cache().rise("pages");
 				id = st.sequence_last("page_id_seq");
-				if(open_status)
+				if(open_status) {
 					response().set_redirect_header(url("/blog/page",id));
-				else if(c.form.save_and_continue.value())
-					response().set_redirect_header(url("/admin/page",id));
-				else
+					return;
+				} else if(c.form.save_and_continue.value())
+					c.id = id;
+				else {
 					response().set_redirect_header(url("/admin/summary"));
-				return;
-
+					return;
+				}
 			} else {
 				if(c.form.remove.value()) {
 					sql() << "DELETE FROM pages where id=?" << id <<cppdb::exec;
@@ -134,10 +135,10 @@ void page::prepare_shared(int id)
 					cache().rise("pages");
 				}
 				if(c.form.change_status.value() || c.form.save.value()) {
-					if(!open_status)
-						response().set_redirect_header(url("/admin/summary"));
-					else
+					if(open_status)
 						response().set_redirect_header(url("/blog/page",id));
+					else
+						response().set_redirect_header(url("/admin/summary"));
 					return;
 				}
 

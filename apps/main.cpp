@@ -18,6 +18,8 @@
 #include <iostream>
 #include <ctime>
 
+// #define ACCESS_LOG 1
+
 std::string strtime(time_t timep) {
 	char tmp[64];
 	strftime(tmp, sizeof(tmp), "%Y-%m-%d %H:%M:%S",localtime(&timep));
@@ -59,6 +61,7 @@ public:
 	}
 	virtual void main(std::string path)
 	{
+	#ifdef ACCESS_LOG
 		clock_t start = std::clock();
 		time_t t = time(NULL);
 		std::string lang = request().http_accept_language();
@@ -76,6 +79,7 @@ public:
 			session().set<int>("nlang", nlang);
 			cache().clear();
 		}
+	#endif
 
 		try {
 			response().status(cppcms::http::response::ok);
@@ -88,6 +92,7 @@ public:
 			response().set_redirect_header(url("/config"));
 		}
 
+	#ifdef ACCESS_LOG
 		if(request().query_string().length()) {
 			path += "?" + request().query_string();
 		}
@@ -103,6 +108,7 @@ public:
 		std::cout << " \"" << response().get_header("Status") << "\""; // STATUS
 		std::cout << " \"" << request().http_user_agent() << "\"";
 		std::cout << std::endl; // USER-AGENT
+	#endif
 	}
 };
 
