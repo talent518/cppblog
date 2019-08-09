@@ -111,7 +111,7 @@ void media::prepare(std::string path)
 		response().make_error_response(404);
 	else {
 		std::ostringstream orange;
-		size_t b = 0, e = st.st_size - 1;
+		long int b = 0, e = st.st_size - 1;
 
 		if(!request().http_range().empty()) {
 			sscanf(request().http_range().c_str(), "bytes=%lu-%lu", &b, &e);
@@ -119,7 +119,7 @@ void media::prepare(std::string path)
 			response().content_range(orange.str());
 		}
 
-		size_t n = e-b+1;
+		long int n = e-b+1;
 		time_t t = time(NULL);
 
 		response().content_length(n);
