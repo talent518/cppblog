@@ -552,6 +552,9 @@ select {
 	border: 1px #bbb solid;
 }
 
+#comments input[type=text] {background:white;margin-right:1em;padding:5px 3px;}
+#comments .cppcms_form_help {color:gray;}
+
 #comments textarea {
 	width: 498px;
 	line-height:22px;
