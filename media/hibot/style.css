@@ -1,5 +1,5 @@
-.hibot { padding:0 0 0 38px; margin:auto; font-size:14px;font-family: monospace; background:#111; color: #e6e1dc; }
-.hibot li{ margin: 0; padding-left: 10px; border-left: 2px solid #ccc; background:#111; list-style-position: outside; list-style-type: decimal; text-indent: 0; word-wrap: break-word; word-break: break-all; }
+.hibot { padding:0 0 0 38px; margin:5px auto 0; font-size:14px;font-family: monospace; background:#111; color: #e6e1dc;}
+.hibot li{ white-space: normal;margin: 0; padding-left: 10px; border-left: 2px solid #ccc; background:#111; list-style-position: outside; list-style-type: decimal; text-indent: 0; word-wrap: break-word; word-break: break-all; }
 .hibot .num { color: #a5c261; }
 .hibot .attr { color : #4093CC}
 .hibot .comment { color: #bc9458; font-style: italic; }

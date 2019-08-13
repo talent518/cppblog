@@ -7,10 +7,8 @@ fieldset, address, pre { margin-right:0.0em;}
 ul, ol, dl { padding-right:2.5em; };
 
 blockquote, pre {
-        margin-left:20px;
-        margin-right:20px;
-        padding-right:5px;
-        border-right: #999999 solid thin;
+    margin:0;
+    padding:0;
 }
 
 #sidecontent {
@@ -88,3 +86,4 @@ blockquote, pre {
 
 #sidecontent li span{float:left;}
 
+#comments dd {margin-right:20px;}

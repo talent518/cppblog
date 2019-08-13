@@ -39,6 +39,8 @@ namespace data {
 					mail.message(translate("E-Mail"));
 					url.message(translate("URL"));
 					content.message(translate("Content"));
+					content.rows(15);
+					content.cols(80);
 					content.limits(1,32768);
 					save.value(translate("Save"));
 					erase.value(translate("Delete"));
