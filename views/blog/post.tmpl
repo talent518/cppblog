@@ -40,7 +40,7 @@
 			</script>	
 		</dt>
 		<dd>
-		<%= comment.content | ext markdown2html | ext xss %>
+		<%= comment.content | ext markdown2html %>
 		</dd>
 	<% end %>
 	<% if not empty preview_content %> 

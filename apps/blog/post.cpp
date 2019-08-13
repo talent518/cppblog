@@ -148,8 +148,7 @@ void post::postback(std::string sid)
 			cache().rise("comments");
 			tr.commit();
 			response().set_redirect_header(url("/blog/post",id));
-		}
-		else {
+		} else {
 			c.preview_content = c.response.content.value();
 		}
 	}

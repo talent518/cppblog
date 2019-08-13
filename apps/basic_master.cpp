@@ -71,6 +71,8 @@ namespace {
 		r.add_integer_property("table","cellspacing");
 		r.add_integer_property("table","border");
 		r.add_tag("center",rules::opening_and_closing);
+		r.add_tag("code",rules::opening_and_closing);
+		r.add_property("code","class",booster::regex("\\w+"));
 		r.add_entity("nbsp");
 		r.encoding("UTF-8");
 		r.comments_allowed(false);
@@ -89,7 +91,7 @@ std::string filter(std::string const &html)
 
 std::string markdown_to_html(std::string const &input)
 {
-	int flags = 0x0004; // no_pants
+	int flags = MKD_NOPANTS;
 	/// It is safe to const cast as mkd_string does not 
 	/// alter original string
 	MMIOT *doc = mkd_string(const_cast<char *>(input.c_str()),input.size(),flags);
