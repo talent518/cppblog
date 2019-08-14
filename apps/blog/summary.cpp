@@ -15,6 +15,9 @@ summary::summary(cppcms::service &s) : master(s)
 	mapper().assign("/");
 	dispatcher().assign("/?",&summary::all,this);
 
+	mapper().assign("from", "/");
+	dispatcher().assign("/?",&summary::all,this);
+
 	mapper().assign("from", "/from/{1}");
 	dispatcher().assign("/from/(\\d+)/?",&summary::all,this,1);
 
@@ -205,8 +208,6 @@ void summary::prepare(int cat_id,int page)
 
 	cache().store_page(key.str());
 }
-
-
 
 } // 
 } // 

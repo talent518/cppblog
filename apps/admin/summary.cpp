@@ -9,7 +9,7 @@ namespace admin {
 
 summary::summary(cppcms::service &s) : master(s)
 {
-	mapper().assign("page", "/{1}");
+	mapper().assign("/{1}");
 	dispatcher().assign("/(\\d+)/?",&summary::prepare,this,1);
 
 	mapper().assign("");

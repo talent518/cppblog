@@ -20,7 +20,7 @@
 			<li><a href="<% url "/admin/post" using post.id %>"><%= post.title %></a> <a href="<% url "/blog/post" using post.id %>" class="preview"><% gt "Preview" %></a></li>
 		<% end %>
 		</ul>
-		<% c++ out() << content.multi_page("page");%>
+		<% c++ out() << content.multi_page("/admin/summary");%>
 	<% empty %>
 		<p><% gt "No published posts" %></p>
 	<% end%>
