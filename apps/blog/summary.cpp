@@ -50,17 +50,31 @@ void summary::category(std::string id,std::string page)
 
 void summary::prepare(int cat_id,int page)
 {
-	cppdb::result r;
-	std::string q = request().get("q");
-
-	std::ostringstream key;
-
 	if(page < 0) page = 0;
 	if(cat_id < 0) cat_id = 0;
 
+	if(cat_id > 0) {
+		std::string max_cat_id;
+		if(cache().fetch_frame("max_cat_id", max_cat_id)) {
+			if(atoi(max_cat_id.c_str()) < cat_id) {
+				response().make_error_response(404);
+				return;
+			}
+		} else {
+			sql() << "SELECT MAX(id) FROM cats" << cppdb::row >> max_cat_id;
+
+			std::set<std::string> triggers;
+			triggers.insert("cats");
+			cache().store_frame("max_cat_id", max_cat_id, triggers);
+		}
+	}
+
+	std::string q = request().get("q");
+	std::ostringstream key;
 	key << "summary_" << cat_id <<"_"<<page<<"_"<<q;
 	if(cache().fetch_page(key.str()))
 		return;
+
 	std::ostringstream ss;
 	ss << "cat_" << cat_id;
 	cache().add_trigger(ss.str());
@@ -76,6 +90,8 @@ void summary::prepare(int cat_id,int page)
 
 		q = "%" + q + "%";
 	}
+
+	cppdb::result r;
 
 	if(cat_id != 0) {
 		std::ostringstream sname;
