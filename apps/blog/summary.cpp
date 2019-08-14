@@ -54,6 +54,10 @@ void summary::prepare(int cat_id,int page)
 	std::string q = request().get("q");
 
 	std::ostringstream key;
+
+	if(page < 0) page = 0;
+	if(cat_id < 0) cat_id = 0;
+
 	key << "summary_" << cat_id <<"_"<<page<<"_"<<q;
 	if(cache().fetch_page(key.str()))
 		return;
@@ -74,18 +78,43 @@ void summary::prepare(int cat_id,int page)
 	}
 
 	if(cat_id != 0) {
-		r = sql() << "SELECT name FROM cats WHERE id=?" << cat_id << cppdb::row;
-		if(r.empty()) {
+		std::ostringstream sname;
+		sname << "cat_name_" << cat_id;
+		if(!cache().fetch_frame(sname.str(), c.category_name)) {
+			r = sql() << "SELECT name FROM cats WHERE id=?" << cat_id << cppdb::row;
+			if(r.empty()) {
+				c.category_name.clear();
+			} else {
+				r >> c.category_name;
+			}
+
+			std::set<std::string> triggers;
+			triggers.insert(ss.str());
+			cache().store_frame(sname.str(), c.category_name, triggers);
+		}
+		
+		if(c.category_name.empty()) {
 			response().make_error_response(404);
 			return;
 		}
-		r >> c.category_name;
 
 		if(q.empty()) {
-			sql() << "SELECT COUNT(post_id) FROM post2cat WHERE cat_id=? AND is_open=1" << cat_id << cppdb::row >> c.page_records;
+			std::ostringstream scount;
+			scount << "cat_count_" << cat_id;
+			if(!cache().fetch_data(scount.str(), c)) {
+				sql() << "SELECT COUNT(post_id) FROM post2cat WHERE cat_id=? AND is_open=1" << cat_id << cppdb::row >> c.page_records;
+				std::set<std::string> triggers;
+				triggers.insert(ss.str());
+				cache().store_data(scount.str(), c, triggers);
+			}
 
 			c.calc_pages();
 			c.id = cat_id;
+
+			if(c.curpage != page) {
+				response().set_redirect_header(url("category", cat_id, c.curpage));
+				return;
+			}
 
 			r = sql() <<
 				"SELECT posts.id,users.username,posts.title, "
@@ -100,10 +129,22 @@ void summary::prepare(int cat_id,int page)
 				"LIMIT ? OFFSET ?"
 				<< cat_id << c.page_size << (c.curpage * c.page_size);
 		} else {
-			sql() << "SELECT COUNT(post_id) FROM post2cat LEFT JOIN	posts ON post2cat.post_id=posts.id WHERE post2cat.cat_id=? AND post2cat.is_open=1 AND (posts.title LIKE ? OR posts.abstract LIKE ? OR posts.content LIKE ?)" << cat_id << q << q << q << cppdb::row >> c.page_records;
+			std::ostringstream scount;
+			scount << "cat_count_" << cat_id << "_" << q;
+			if(!cache().fetch_data(scount.str(), c)) {
+				sql() << "SELECT COUNT(post_id) FROM post2cat LEFT JOIN	posts ON post2cat.post_id=posts.id WHERE post2cat.cat_id=? AND post2cat.is_open=1 AND (posts.title LIKE ? OR posts.abstract LIKE ? OR posts.content LIKE ?)" << cat_id << q << q << q << cppdb::row >> c.page_records;
+				std::set<std::string> triggers;
+				triggers.insert(ss.str());
+				cache().store_data(scount.str(), c, triggers);
+			}
 
 			c.calc_pages();
 			c.id = cat_id;
+
+			if(c.curpage != page) {
+				response().set_redirect_header(url("category", cat_id, c.curpage) + "?" + request().query_string());
+				return;
+			}
 
 			r = sql() <<
 				"SELECT posts.id,users.username,posts.title, "
@@ -119,10 +160,22 @@ void summary::prepare(int cat_id,int page)
 				<< cat_id << q << q << q << c.page_size << (c.curpage * c.page_size);
 		}
 	} else if(q.empty()) {
-		sql() << "SELECT COUNT(id) FROM posts WHERE is_open=1" << cppdb::row >> c.page_records;
+		std::ostringstream scount;
+		scount << "cat_count_0";
+		if(!cache().fetch_data(scount.str(), c)) {
+			sql() << "SELECT COUNT(id) FROM posts WHERE is_open=1" << cppdb::row >> c.page_records;
+			std::set<std::string> triggers;
+			triggers.insert(ss.str());
+			cache().store_data(scount.str(), c, triggers);
+		}
 
 		c.calc_pages();
 		c.id = 0;
+
+		if(c.curpage != page) {
+			response().set_redirect_header(url("from", c.curpage));
+			return;
+		}
 
 		r = sql() <<
 			"SELECT posts.id,users.username,posts.title, "
@@ -136,10 +189,22 @@ void summary::prepare(int cat_id,int page)
 			"LIMIT ? OFFSET ? " 
 			<< c.page_size << (c.curpage * c.page_size);
 	} else {
-		sql() << "SELECT COUNT(id) FROM posts WHERE is_open=1 AND (title LIKE ? OR abstract LIKE ? OR content LIKE ?)" << q << q << q << cppdb::row >> c.page_records;
+		std::ostringstream scount;
+		scount << "cat_count_0_" << q;
+		if(!cache().fetch_data(scount.str(), c)) {
+			sql() << "SELECT COUNT(id) FROM posts WHERE is_open=1 AND (title LIKE ? OR abstract LIKE ? OR content LIKE ?)" << q << q << q << cppdb::row >> c.page_records;
+			std::set<std::string> triggers;
+			triggers.insert(ss.str());
+			cache().store_data(scount.str(), c, triggers);
+		}
 
 		c.calc_pages();
 		c.id = 0;
+
+		if(c.curpage != page) {
+			response().set_redirect_header(url("from", c.curpage) + "?" + request().query_string());
+			return;
+		}
 
 		r = sql() <<
 			"SELECT posts.id,users.username,posts.title, "
@@ -167,9 +232,9 @@ void summary::prepare(int cat_id,int page)
 			>> published >> cur.comment_count;
 		cur.has_content = content_size != 0;
 		cur.published = mktime(&published);
-		std::ostringstream ss;
-		ss << "post_" << cur.id;
-		cache().add_trigger(ss.str());
+		std::ostringstream spost;
+		spost << "post_" << cur.id;
+		cache().add_trigger(spost.str());
 	}
 
 	master::prepare(c);

@@ -22,7 +22,7 @@ namespace data {
 			a & blog_title & blog_description & contact & copyright_string;
 		}
 	};
-	struct basic_master :public cppcms::base_content {
+	struct basic_master :public cppcms::base_content, public cppcms::serializable {
 		general_info info;
 		std::string media;
 		std::string host;
@@ -37,6 +37,11 @@ namespace data {
 		int page_total;
 
 		basic_master(): latex(NULL), page_records(0), page_size(10), curpage(0), page_total(1) {}
+
+		void serialize(cppcms::archive &a)
+		{
+			a & page_records;
+		}
 
 		void calc_pages() {
 			if(page_records) {

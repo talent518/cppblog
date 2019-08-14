@@ -83,7 +83,6 @@ void summary::prepare(int page)
 	}
 
 	render("admin_skin","summary",c);
-
 }
 
 

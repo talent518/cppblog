@@ -60,6 +60,10 @@ void master::load_sidebar(data::blog::master &c)
 		c.sidebar.cats.resize(c.sidebar.cats.size()+1);
 		data::blog::sidebar_info::cat &cat = c.sidebar.cats.back();
 		r >> cat.id >> cat.name >> cat.posts;
+
+		std::ostringstream ss;
+		ss << "cat_" << cat.id;
+		cache().add_trigger(ss.str());
 	}
 
 	cache().add_trigger("cats");
