@@ -15,6 +15,8 @@
 #include <cppcms/session_interface.h>
 #include <cppcms/url_mapper.h>
 
+#include <unistd.h>
+#include <sys/syscall.h>
 #include <iostream>
 #include <ctime>
 
@@ -64,6 +66,7 @@ public:
 	#ifdef ACCESS_LOG
 		clock_t start = std::clock();
 		time_t t = time(NULL);
+	#endif
 		std::string lang = request().http_accept_language();
 		int nlang = 0;
 
@@ -79,7 +82,6 @@ public:
 			session().set<int>("nlang", nlang);
 			cache().clear();
 		}
-	#endif
 
 		try {
 			response().status(cppcms::http::response::ok);
@@ -99,10 +101,11 @@ public:
 
 		// print access log
 
-		std::cout << request().remote_addr(); // IP
+		std::cout << syscall(SYS_gettid); // TID
+		std::cout << " " << request().remote_addr(); // IP
 		std::cout << " " << strtime(t); // TIME
 		std::cout << " " << request().request_method(); // METHOD
-		std::cout  << " " << path << " " << request().server_protocol(); // URI
+		std::cout << " " << path << " " << request().server_protocol(); // URI
 		std::cout << " " << request().content_length(); // LENGTH
 		std::cout << " " << (double)(std::clock() - start)/CLOCKS_PER_SEC; // RUN TIME
 		std::cout << " \"" << response().get_header("Status") << "\""; // STATUS
