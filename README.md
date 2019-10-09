@@ -8,10 +8,10 @@ string connection_string("mysql:host=127.0.0.1;database=foo;user=bar;password=fo
 cppdb::session session(connection_string);
 ```
 
-# Build and run
+# Build and run(Ubuntu)
 Execute the following commands:
 ```
-make run
+make all run
 ```
 
 # Support breakpoint continuation

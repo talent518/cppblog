@@ -19,6 +19,7 @@ cppcms: lib/cppcms-1.2.1/build/Makefile
 	@make -C lib/cppcms-1.2.1/build -j$(CPUS) && sudo make -C lib/cppcms-1.2.1/build install
 
 lib/cppcms-1.2.1/build/Makefile: lib/cppcms-1.2.1/build/
+	@sudo apt-get install cmake libpcre3-dev zlib1g-dev libgcrypt11-dev libicu-dev python
 	@sh -c 'cd lib/cppcms-1.2.1/build && cmake ..'
 
 lib/cppcms-1.2.1/build/: lib/cppcms-1.2.1/
