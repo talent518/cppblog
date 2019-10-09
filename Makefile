@@ -7,6 +7,7 @@ run: all
 	@cd build && ./cppblog -c ../config.js
 
 ./build/Makefile: build /usr/local/include/cppdb/backend.h /usr/local/include/cppcms/application.h
+	@sudo apt-get install libgraphicsmagick++1-dev libmagick++-6.q16-dev libmagick++-dev discount libmarkdown2-dev
 	@sh -c 'cd build && cmake ..'
 
 build:
@@ -35,6 +36,7 @@ cppdb: lib/cppdb-0.3.1/build/Makefile
 	@make -C lib/cppdb-0.3.1/build -j$(CPUS) && sudo make -C lib/cppdb-0.3.1/build install
 
 lib/cppdb-0.3.1/build/Makefile: lib/cppdb-0.3.1/build/
+	@sudo apt-get install libmysqlclient-dev libsqlite3-dev
 	@sh -c 'cd lib/cppdb-0.3.1/build && cmake ..'
 
 lib/cppdb-0.3.1/build/: lib/cppdb-0.3.1/
