@@ -42,7 +42,7 @@ void upload::prepare()
 	size_t chunks = post_or_get("chunks", 1l);
 	cppcms::json::value json;
 	booster::regex rehex("^[0-9a-fA-F]+$");
-	booster::regex reext("^.*\\.(gif|jpe?g|bmp|png|mp4|avi|flv|f4v|webm|ogv|bz2|xz|gz|tar|rar|zip|7z|cab|tgz|tbz|docx?|xlsx?|pptx?|pdf|csv|txt)$", booster::regex::perl|booster::regex::icase);
+	booster::regex reext("^.*\\.(gif|jpe?g|bmp|png|mp3|mp4|avi|flv|f4v|webm|ogv|bz2|xz|gz|tar|rar|zip|7z|cab|tgz|tbz|docx?|xlsx?|pptx?|pdf|csv|txt)$", booster::regex::perl|booster::regex::icase);
 
 	if(md5.empty() || !booster::regex_match(md5, rehex) || name.empty() || size == 0) {
 		json["status"].boolean(false);

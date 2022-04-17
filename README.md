@@ -11,7 +11,7 @@ cppdb::session session(connection_string);
 # Build and run(Ubuntu)
 Execute the following commands:
 ```
-make all run
+make run
 ```
 
 # Support breakpoint continuation

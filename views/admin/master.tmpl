@@ -111,9 +111,9 @@ window.webuploader = $('#j-webuploader').webuploader({
 	server: '<% url "/admin/upload" %>',
 	swf:'<%= media %>/webuploader/flash.swf',
 	accept: {
-		title: '图片/视频/文档/压缩包',
-		extensions: 'gif,jpeg,jpg,bmp,png,mp4,avi,flv,f4v,webm,ogv,bz2,xz,gz,tar,rar,zip,7z,cab,tgz,tbz,doc,docx,xls,xlsx,ppt,pptx,pdf,csv,txt',
-		mimeTypes: 'image/*,video/*,text/csv,application/x-gzip,application/x-tgz,application/x-tar,application/zip,application/x-bzip,application/x-bzip-compressed-tar,application/x-rar-compressed,application/x-7z-compressed,application/vnd.ms-cab-compressed,application/x-xz,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf'
+		title: '图片/音乐/视频/文档/压缩包',
+		extensions: 'gif,jpeg,jpg,bmp,png,mp3,mp4,avi,flv,f4v,webm,ogv,bz2,xz,gz,tar,rar,zip,7z,cab,tgz,tbz,doc,docx,xls,xlsx,ppt,pptx,pdf,csv,txt',
+		mimeTypes: 'image/*,audio/*,video/*,text/csv,application/x-gzip,application/x-tgz,application/x-tar,application/zip,application/x-bzip,application/x-bzip-compressed-tar,application/x-rar-compressed,application/x-7z-compressed,application/vnd.ms-cab-compressed,application/x-xz,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf'
 	},
 	formData: {_csrf:'<% c++ out() << content.app().session().get_csrf_token(); %>'},
 	options: {
