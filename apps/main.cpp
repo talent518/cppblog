@@ -100,17 +100,21 @@ public:
 		}
 
 		// print access log
+		{
+			std::ostringstream ss;
 
-		std::cout << syscall(SYS_gettid); // TID
-		std::cout << " " << request().remote_addr(); // IP
-		std::cout << " " << strtime(t); // TIME
-		std::cout << " " << request().request_method(); // METHOD
-		std::cout << " " << path << " " << request().server_protocol(); // URI
-		std::cout << " " << request().content_length(); // LENGTH
-		std::cout << " " << (double)(std::clock() - start)/CLOCKS_PER_SEC; // RUN TIME
-		std::cout << " \"" << response().get_header("Status") << "\""; // STATUS
-		std::cout << " \"" << request().http_user_agent() << "\"";
-		std::cout << std::endl; // USER-AGENT
+			ss << syscall(SYS_gettid); // TID
+			ss << " " << request().remote_addr(); // IP
+			ss << " " << strtime(t); // TIME
+			ss << " " << request().request_method(); // METHOD
+			ss << " " << path << " " << request().server_protocol(); // URI
+			ss << " " << request().content_length(); // LENGTH
+			ss << " " << (double)(std::clock() - start)/CLOCKS_PER_SEC; // RUN TIME
+			ss << " \"" << response().get_header("Status") << "\""; // STATUS
+			ss << " \"" << request().http_user_agent() << "\"";
+			ss << std::endl;
+			std::cout << ss.str();
+		}
 	#endif
 	}
 };
