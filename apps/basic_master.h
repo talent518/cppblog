@@ -1,6 +1,8 @@
 #pragma once
 #include <cppcms/application.h>
 
+#include <stdexcept>
+
 namespace cppdb {
 	class session;
 }
@@ -55,7 +57,7 @@ namespace apps {
 
 		std::string tohex(const unsigned char *str, size_t len);
 	private:
-		std::auto_ptr<cppdb::session> sql_;
+		std::unique_ptr<cppdb::session> sql_;
 		std::string conn_str_;
 		std::string media_;
 		std::string cookie_;

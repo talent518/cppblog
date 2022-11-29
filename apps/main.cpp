@@ -126,6 +126,9 @@ int main(int argc,char **argv)
 		cppcms::service srv(argc,argv);
 		srv.applications_pool().mount(cppcms::applications_factory<blog>());
 		apps::init_tex_filer(srv.settings());
+		srv.post([&srv](){
+			std::cout << "Service started" << std::endl;
+		});
 		srv.run();
 	} catch(std::exception const &e) {
 		std::cerr << "Failed: " << e.what() << std::endl;
