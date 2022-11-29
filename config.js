@@ -5,7 +5,7 @@
 		"root" : "",
 		"host" : "localhost:8080",
 		//"connection_string" : "sqlite3:db=cppcms.db;@pool_size=10",
-		"connection_string" : "mysql:database=newpress;user=root;password=root;@pool_size=10;@use_prepared=on",
+		"connection_string" : "mysql:database=cppblog;user=root;password=1qazXSW23edc;unix_socket=/opt/lampp/var/mysql/mysql.sock;set_charset_name=utf8;@pool_size=10;@use_prepared=on",
 		"tex" : {
 			"enable" : true,
 			//"latex" : "/usr/bin/latex",
@@ -30,14 +30,15 @@
 		
 	},
 	"views" : {
-		 //"default_skin" : "contendend" ,
-		 "default_skin" : "orangesky" ,
-		 "paths" : [ "./" ],
-		 "skins" : [ "contendend" , "orangesky" ],
+		"default_skin" : "contendend" ,
+		//"default_skin" : "orangesky" ,
+		"paths" : [ "./" ],
+		"skins" : [ "contendend" , "orangesky" ],
 	},
 	"file_server" : {
-		"enable" : true,
-		"document_root" : "../"
+		"enable" : false,
+		"document_root" : "../",
+		"allow_deflate" : true
 	},
 	"session" : {
 		"expire" : "renew",

@@ -16,37 +16,31 @@ build:
 /usr/local/include/cppcms/application.h:
 	@make cppcms
 
-cppcms: lib/cppcms-1.2.1/build/Makefile
-	@make -C lib/cppcms-1.2.1/build -j$(CPUS) && sudo make -C lib/cppcms-1.2.1/build install
+cppcms: lib/cppcms/build/Makefile
+	@make -C lib/cppcms/build -j$(CPUS) && sudo make -C lib/cppcms/build install
 
-lib/cppcms-1.2.1/build/Makefile: lib/cppcms-1.2.1/build/
-	@sudo apt-get install cmake libpcre3-dev zlib1g-dev libgcrypt20-dev libicu-dev python
-	@sh -c 'cd lib/cppcms-1.2.1/build && cmake ..'
+lib/cppcms/build/Makefile: lib/cppcms/build/
+	@sudo apt-get install cmake libpcre3-dev zlib1g-dev libgcrypt20-dev libicu-dev
+	@sh -c 'cd lib/cppcms/build && cmake ..'
 
-lib/cppcms-1.2.1/build/: lib/cppcms-1.2.1/
-	@mkdir lib/cppcms-1.2.1/build
-
-lib/cppcms-1.2.1/:
-	@tar -xvf lib/cppcms-1.2.1.tar.bz2 -C lib
+lib/cppcms/build/:
+	@mkdir lib/cppcms/build
 
 /usr/local/include/cppdb/backend.h:
 	@make cppdb
 
-cppdb: lib/cppdb-0.3.1/build/Makefile
-	@make -C lib/cppdb-0.3.1/build -j$(CPUS) && sudo make -C lib/cppdb-0.3.1/build install
+cppdb: lib/cppdb/build/Makefile
+	@make -C lib/cppdb/build -j$(CPUS) && sudo make -C lib/cppdb/build install
 
-lib/cppdb-0.3.1/build/Makefile: lib/cppdb-0.3.1/build/
+lib/cppdb/build/Makefile: lib/cppdb/build/
 	@sudo apt-get install libmysqlclient-dev libsqlite3-dev
-	@sh -c 'cd lib/cppdb-0.3.1/build && cmake ..'
+	@sh -c 'cd lib/cppdb/build && cmake ..'
 
-lib/cppdb-0.3.1/build/: lib/cppdb-0.3.1/
-	@mkdir lib/cppdb-0.3.1/build
-
-lib/cppdb-0.3.1/:
-	@tar -xvf lib/cppdb-0.3.1.tar.bz2 -C lib
+lib/cppdb/build/:
+	@mkdir lib/cppdb/build
 
 clean:
-	@rm -vrf build lib/cppcms-1.2.1 lib/cppdb-0.3.1
+	@rm -vrf build lib/cppcms/build lib/cppdb/build
 
 clean-cppcms:
 	@sudo rm -vrf /usr/local/include/booster /usr/local/include/cppcms /usr/local/bin/cppcms* /usr/local/lib/libcppcms*

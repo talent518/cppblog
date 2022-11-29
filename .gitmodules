@@ -1,0 +1,6 @@
+[submodule "lib/cppcms"]
+	path = lib/cppcms
+	url = ../cppcms.git
+[submodule "lib/cppdb"]
+	path = lib/cppdb
+	url = ../cppdb.git
