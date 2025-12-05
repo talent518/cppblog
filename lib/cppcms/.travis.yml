@@ -1,0 +1,11 @@
+language: cpp
+
+os:
+    - osx
+
+compiler:
+    - gcc
+    - clang
+
+script:
+    - mkdir build && cd build && cmake -DDISABLE_STATIC=ON .. && make && ctest

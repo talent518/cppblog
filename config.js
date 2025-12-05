@@ -5,7 +5,7 @@
 		"root" : "",
 		"host" : "localhost:8080",
 		//"connection_string" : "sqlite3:db=cppcms.db;@pool_size=10",
-		"connection_string" : "mysql:database=newpress;user=root;password=root;@pool_size=10;@use_prepared=on",
+		"connection_string" : "mysql:database=cppblog;host=127.0.0.1;user=root;password=123456;@pool_size=10;@use_prepared=on",
 		"tex" : {
 			"enable" : true,
 			//"latex" : "/usr/bin/latex",
