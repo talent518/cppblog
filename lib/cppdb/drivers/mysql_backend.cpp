@@ -34,6 +34,12 @@
 
 #include <iostream>
 
+#ifndef my_bool
+#include <stdbool.h>
+static MYSQL_BIND __my_bind;
+#define my_bool typeof(*__my_bind.is_null)
+#endif
+
 namespace cppdb {
 
 namespace mysql_backend {	
@@ -1198,11 +1204,13 @@ public:
 				mysql_set_option(MYSQL_OPT_CONNECT_TIMEOUT, &connect_timeout);
 			}
 		}
+#ifdef MYSQL_OPT_GUESS_CONNECTION
 		if(ci.has("opt_guess_connection")) {
 			if(ci.get("opt_guess_connection", 1)) {
 				mysql_set_option(MYSQL_OPT_GUESS_CONNECTION, NULL);
 			}
 		}
+#endif
 		if(ci.has("opt_local_infile")) {
 			if(unsigned local_infile = ci.get("opt_local_infile", 0)) {
 				mysql_set_option(MYSQL_OPT_CONNECT_TIMEOUT, &local_infile);
@@ -1235,26 +1243,34 @@ public:
 			mysql_set_option(MYSQL_PLUGIN_DIR, plugin_dir.c_str());
 		}
 #endif
+#ifdef MYSQL_SET_CLIENT_IP
 		std::string set_client_ip = ci.get("set_client_ip", "");
 		if(!set_client_ip.empty()) {
 			mysql_set_option(MYSQL_SET_CLIENT_IP, set_client_ip.c_str());
 		}
+#endif
+#ifdef MYSQL_OPT_SSL_VERIFY_SERVER_CERT
 		if(ci.has("opt_ssl_verify_server_cert")) {
 			if(unsigned verify = ci.get("opt_ssl_verify_server_cert", 1)) {
 				my_bool value = verify;
 				mysql_set_option(MYSQL_OPT_SSL_VERIFY_SERVER_CERT, &value);
 			}
 		}
+#endif
+#ifdef MYSQL_OPT_USE_EMBEDDED_CONNECTION
 		if(ci.has("opt_use_embedded_connection")) {
 			if(ci.get("opt_use_embedded_connection", 1)) {
 				mysql_set_option(MYSQL_OPT_USE_EMBEDDED_CONNECTION, NULL);
 			}
 		}
+#endif
+#ifdef MYSQL_OPT_USE_REMOTE_CONNECTION
 		if(ci.has("opt_use_remote_connection")) {
 			if(ci.get("opt_use_remote_connection", 1)) {
 				mysql_set_option(MYSQL_OPT_USE_REMOTE_CONNECTION, NULL);
 			}
 		}
+#endif
 		if(ci.has("opt_write_timeout")) {
 			if(unsigned write_timeout = ci.get("opt_write_timeout", 0)) {
 				mysql_set_option(MYSQL_OPT_WRITE_TIMEOUT, &write_timeout);
@@ -1274,7 +1290,7 @@ public:
 				mysql_set_option(MYSQL_REPORT_DATA_TRUNCATION, &value);
 			}
 		}
-#if MYSQL_VERSION_ID >= 40101
+#if MYSQL_VERSION_ID >= 40101 and defined(MYSQL_SECURE_AUTH)
 		if(ci.has("secure_auth")) {
 			if(unsigned secure = ci.get("secure_auth", 1)) {
 				my_bool value = secure;

@@ -6,14 +6,12 @@ all: ./build/Makefile
 run: all
 	@cd build && ./cppblog -c ../config.js
 
-./build/Makefile: build /usr/local/include/cppdb/backend.h /usr/local/include/cppcms/application.h
+./build/Makefile: /usr/local/include/cppdb/backend.h /usr/local/include/cppcms/application.h
 	@sudo apt-get install -y libgraphicsmagick++1-dev libmagick++-6.q16-dev libmagick++-dev discount libmarkdown2-dev
-	@sh -c 'cd build && cmake ..'
+	@sh -c 'mkdir -p build;cd build && cmake ..'
 
-build:
-	@mkdir build
-
-/usr/local/include/cppcms/application.h: cppcms
+/usr/local/include/cppcms/application.h:
+	@make cppcms
 
 cppcms: lib/cppcms/build/Makefile
 	@make -C lib/cppcms/build -j$(CPUS) && sudo make -C lib/cppcms/build install
@@ -25,7 +23,8 @@ lib/cppcms/build/Makefile: lib/cppcms/build/
 lib/cppcms/build/:
 	@mkdir lib/cppcms/build
 
-/usr/local/include/cppdb/backend.h: cppdb
+/usr/local/include/cppdb/backend.h:
+	@make cppdb
 
 cppdb: lib/cppdb/build/Makefile
 	@make -C lib/cppdb/build -j$(CPUS) && sudo make -C lib/cppdb/build install
