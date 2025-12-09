@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 ############################################################################
 #
@@ -11,12 +11,12 @@
 import os
 import re
 import sys
-import StringIO
+from io import StringIO
 
 str_match=r'"([^"\\]|\\[^"]|\\")*"'
 single_var_param_match=r'(?:-?\d+|"(?:[^"\\]|\\[^"]|\\")*")'
 call_param_match=r'(?:\(\)|\((?:' + single_var_param_match + r')(?:,' + single_var_param_match + r')*\))'
-variable_match=r"\*?([a-zA-Z][a-zA-Z0-9_]*"+ call_param_match +r"?)(((\.|->)([a-zA-Z][a-zA-Z0-9_]*" + call_param_match + r"?))*)"
+variable_match=r"\*?([a-zA-Z][a-zA-Z0-9_]*" + call_param_match + r"?)(((\.|->)([a-zA-Z][a-zA-Z0-9_]*" + call_param_match + r"?))*)"
 
 def interleave(*args):
     for idx in range(0, max(map(len,args))):
@@ -216,7 +216,7 @@ class template_block:
         self.name=m.group(1)
         params=""
         abstract = m.group('abs') != None
-        if m.group(2) and not re.match('^\s*$',m.group(2)):
+        if m.group(2) and not re.match(r'^\s*$',m.group(2)):
             params=self.create_parameters(m.group(2))
         if abstract:
             output_declaration( "virtual void %s(%s) = 0;" % (self.name,params) )
@@ -306,7 +306,7 @@ def make_ident(val):
     global tmpl_seq
     if m.group(1) in tmpl_seq:
         return val
-    m2=re.match('^\*(.*)$',val)
+    m2=re.match(r'^\*(.*)$',val)
     if m2:
         return "*content." + m2.group(1)
     else:
@@ -335,10 +335,10 @@ def print_using_block_end():
 class using_block:
     pattern=r'^<%\s*using\s+(?P<class>(?:\w+::)*\w+)(?:\s+with\s+(?P<content>' + variable_match + r'))?\s+as\s+(?P<name>[a-zA-Z_]\w*)'  \
             + r'(?P<from>\s+from' \
-            + r'(\s*(?P<fst_str>'+ str_match +r')|(?:\s+(?P<fst_var>' + variable_match + r')))' \
-            + r'(\s*,\s*((?P<snd_str>'+ str_match +r')|(?P<snd_var>' + variable_match + r')))?' \
+            + r'(\s*(?P<fst_str>'+ str_match + r')|(?:\s+(?P<fst_var>' + variable_match + r')))' \
+            + r'(\s*,\s*((?P<snd_str>'+ str_match + r')|(?P<snd_var>' + variable_match + r')))?' \
             + r')?' \
-        + '\s*%>$' 
+        + r'\s*%>$' 
     basic_pattern = 'using'
     basic_name = 'using'
     type='using'
@@ -358,7 +358,7 @@ class foreach_block:
     pattern=r'^<%\s*foreach\s+([a-zA-Z]\w*)(\s+as\s+((:?:?\w+)(::\w+)*))?' \
         + r'(?:\s+rowid\s+([a-zA-Z]\w*)(?:\s+from\s+(\d+))?)?' \
         + r'(?:\s+(reverse))?' \
-        + '\s+in\s+(' + variable_match +')\s*%>$'
+        + r'\s+in\s+(' + variable_match + r')\s*%>$'
     basic_pattern = 'foreach'
     basic_name = 'foreach'
     type='foreach'
@@ -514,7 +514,7 @@ class else_block:
         stack.append(self)
 
 class if_block:
-    pattern=r'^<%\s*(if|elif)\s+((not\s+|not\s+empty\s+|empty\s+)?('+variable_match+')|\((.+)\)|)\s*%>$'
+    pattern=r'^<%\s*(if|elif)\s+((not\s+|not\s+empty\s+|empty\s+)?(' + variable_match + r')|\((.+)\)|)\s*%>$'
     basic_pattern = '(if|elif)'
     basic_name = 'if/elif'
     type='if'
@@ -602,7 +602,7 @@ class domain_block:
 
 class cpp_include_block:
     pattern=r'^<%\s*c\+\+(src)?\s+(.*)%>$'
-    basic_pattern = 'c\+\+(src)?'
+    basic_pattern = r'c\+\+(src)?'
     basic_name = 'c++'
     def use(self,m):
         global inline_cpp_to
@@ -618,12 +618,12 @@ def get_filter(cur):
     return cur
 
 class base_show:
-    mark='('+variable_match+r')\s*(\|(.*))?'
-    base_pattern='^\s*'+mark + '$'
+    mark='(' + variable_match + r')\s*(\|(.*))?'
+    base_pattern=r'^\s*'+mark + '$'
     def __init__(self,default_filter=None):
         self.default_filter=default_filter
     def get_params(self,s):
-        pattern='^\s*(('+variable_match+')|('+str_match+')|(\-?\d+(\.\d*)?))\s*(,(.*))?$'
+        pattern=r'^\s*((' + variable_match + r')|(' + str_match + r')|(\-?\d+(\.\d*)?))\s*(,(.*))?$'
         res=[]
         m=re.match(pattern,s)
         while m:
@@ -649,7 +649,7 @@ class base_show:
         if not m.group(8):
             return "%s(%s)" % (get_filter(self.default_filter), var)
         filters=m.group(8)
-        expr='^\s*(ext\s+)?(\w+)\s*(\((([^"\)]|'+str_match + ')*)\))?\s*(\|(.*))?$'
+        expr=r'^\s*(ext\s+)?(\w+)\s*(\((([^"\)]|'+str_match + r')*)\))?\s*(\|(.*))?$'
         m=re.match(expr,filters)
         while m:
             if m.group(1):
@@ -671,7 +671,7 @@ class base_show:
 
 class form_block:
     pattern=r'^<%\s*form\s+(as_p|as_table|as_ul|as_dl|as_space|input|block|begin|end)\s+('\
-         + variable_match +')\s*%>$'
+         + variable_match + r')\s*%>$'
     
     basic_pattern  = 'form'
     basic_name = 'form'
@@ -789,7 +789,7 @@ class filters_show_block(base_show):
             output_template('out()<<%s;' % expr)
 
 def make_format_params(s,default_filter = None):
-    pattern=r'^(([^,\("]|'+str_match+'|\(([^"\)]|'+str_match+')*\))+)(,(.*))?$'
+    pattern=r'^(([^,\("]|' + str_match + r'|\(([^"\)]|' + str_match + r')*\))+)(,(.*))?$'
     params=[]
     m=re.match(pattern,s)
     s_orig=s
@@ -824,11 +824,11 @@ class filter_block:
 
 class cache_block:
     pattern=r'^<%\s*cache\s+((?P<str>'+ \
-            str_match +')|(?P<var>'+ variable_match +r'))' + \
+            str_match +r')|(?P<var>'+ variable_match +r'))' + \
             r'(\s+for\s+(?P<time>\d+))?(\s+on\s+miss\s+(?P<callback>[a-zA-Z]\w*)\(\))?' \
             + r'(?P<notriggers>\s+no\s+triggers)?' \
             + r'(?P<norecording>\s+no\s+recording)?' \
-            + '\s*%>$'        
+            + r'\s*%>$'        
     basic_pattern = 'cache'
     basic_name = 'cache'
     type = 'cache'
@@ -887,7 +887,7 @@ class trigger_block:
 
 
 class ngettext_block:
-    pattern=r'^<%\s*ngt\s*((?:' + str_match + '\s*,\s*)?'+str_match+')\s*,\s*('+str_match+')\s*,\s*('+variable_match+')\s*(using(.*))?\s*%>$'
+    pattern=r'^<%\s*ngt\s*((?:' + str_match + r'\s*,\s*)?' + str_match + r')\s*,\s*(' + str_match + r')\s*,\s*(' + variable_match + r')\s*(using(.*))?\s*%>$'
     basic_pattern = 'ngt'
     basic_name = 'ngt'
     def use(self,m):
@@ -905,7 +905,7 @@ class ngettext_block:
             
 
 class gettext_block:
-    pattern=r'^<%\s*gt\s*((?:' + str_match + '\s*,\s*)?'  +str_match+')\s*(using(.*))?\s*%>$'
+    pattern=r'^<%\s*gt\s*((?:' + str_match + r'\s*,\s*)?'  +str_match+r')\s*(using(.*))?\s*%>$'
     basic_pattern = 'gt'
     basic_name = 'gt'
     def use(self,m):
@@ -920,7 +920,7 @@ class gettext_block:
             output_template( "out()<<cppcms::locale::format(cppcms::locale::translate(%s)) %% (%s);" % (s , ') % ('.join(params)))
 
 class url_block:
-    pattern=r'^<%\s*url\s*('+str_match+')\s*(using(.*))?\s*%>$'
+    pattern=r'^<%\s*url\s*(' + str_match + r')\s*(using(.*))?\s*%>$'
     basic_pattern = 'url'
     basic_name = 'url'
     def use(self,m):
@@ -1149,11 +1149,8 @@ def main():
         global header_define 
         global dll_api
         header_define = "CPPCMS_GENERATED_HEADER_%s_TMPL_HEADER_INCLUDED" % ( re.sub("[^a-zA-Z0-9]+", "_", header_file ).upper())
-        if sys.version_info >= (2,5):
-            from hashlib import md5
-        else:
-            from md5 import md5
-        dll_api = 'VIEW_%s_API' % md5(header_define).hexdigest().upper()
+        from hashlib import md5
+        dll_api = 'VIEW_%s_API' % md5(header_define.encode()).hexdigest().upper()
         
     global output_fd
     if output_file!='':
@@ -1244,8 +1241,8 @@ view_created=False
 scope_filter='cppcms::filters::escape'
 
 view_name = ''
-declarations = StringIO.StringIO();
-definitions = StringIO.StringIO();
+declarations = StringIO();
+definitions = StringIO();
 inline_cpp_to = output_declaration
 inline_templates = "default"
 output_template = output_definition
