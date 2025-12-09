@@ -33,6 +33,7 @@ find_path(INC_MARKDOWN mkdio.h)
 pkg_search_module(IM REQUIRED ImageMagick++ GraphicsMagick++)
 include_directories(${IM_INCLUDE_DIRS})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_HDRI_ENABLE=0")
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")

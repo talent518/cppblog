@@ -81,7 +81,7 @@ void upload::prepare()
 				goto end;
 			}
 
-			std::auto_ptr<cppcms::crypto::message_digest> md5digest = cppcms::crypto::message_digest::md5();
+			std::unique_ptr<cppcms::crypto::message_digest> md5digest = cppcms::crypto::message_digest::md5();
 			std::ifstream ifs;
 			char buffer[2048];
 			size_t n;

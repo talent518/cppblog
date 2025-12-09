@@ -19,6 +19,7 @@
 #include <sys/syscall.h>
 #include <iostream>
 #include <ctime>
+#include <string>
 
 // #define ACCESS_LOG 1
 
@@ -126,6 +127,27 @@ int main(int argc,char **argv)
 		cppcms::service srv(argc,argv);
 		srv.applications_pool().mount(cppcms::applications_factory<blog>());
 		apps::init_tex_filer(srv.settings());
+		srv.post([&srv](){
+			std::cout << "Service started" << std::endl;
+			cppcms::json::value api = srv.settings().find("service.api");
+			cppcms::json::value port = srv.settings().find("service.port");
+			if(port.is_undefined()) {
+				port.number(8080);
+			}
+			if(api.is_undefined()) {
+				cppcms::json::value list = srv.settings().find("service.list");
+				if(!list.is_undefined()) {
+					cppcms::json::array lst = list.array();
+					for(unsigned i=0;i<lst.size();i++) {
+						api = lst[i].get("api", "http");
+						port = lst[i].get("port", "8080");
+						std::cout << "[" << api.str() << "] Listen port is " << port.number() << std::endl;
+					}
+				}
+			} else {
+				std::cout << "[" << api.str() << "] Listen port is " << port.number() << std::endl;
+			}
+		});
 		srv.run();
 	} catch(std::exception const &e) {
 		std::cerr << "Failed: " << e.what() << std::endl;

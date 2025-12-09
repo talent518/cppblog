@@ -292,7 +292,7 @@ private:
 
 }; // tex_to_gif
 
-std::auto_ptr<tex_to_gif> tex_filter;
+std::unique_ptr<tex_to_gif> tex_filter;
 
 std::string latex_filter(std::string const &in)
 {

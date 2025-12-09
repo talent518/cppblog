@@ -30,14 +30,15 @@
 		
 	},
 	"views" : {
-		 //"default_skin" : "contendend" ,
-		 "default_skin" : "orangesky" ,
-		 "paths" : [ "./" ],
-		 "skins" : [ "contendend" , "orangesky" ],
+		"default_skin" : "contendend" ,
+		//"default_skin" : "orangesky" ,
+		"paths" : [ "./" ],
+		"skins" : [ "contendend" , "orangesky" ],
 	},
 	"file_server" : {
-		"enable" : true,
-		"document_root" : "../"
+		"enable" : false,
+		"document_root" : "../",
+		"allow_deflate" : true
 	},
 	"session" : {
 		"expire" : "renew",

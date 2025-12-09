@@ -82,7 +82,7 @@ void download::prepare(std::string md5, std::string size, std::string name)
 		response().etag(etag.str());
 
 		//response().io_mode(cppcms::http::response::asynchronous);
-		if(n != st.st_size) response().status(206);
+		if(n != (size_t) st.st_size) response().status(206);
 
 		std::ifstream f(ss.str().c_str());
 		f.seekg(b);

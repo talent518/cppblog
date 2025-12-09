@@ -1,4 +1,4 @@
-CPUS := $(shell expr $(shell lscpu -b -eCPU | grep -v CPU | wc -l) '*' 2)
+CPUS := $(shell nproc)
 
 all: ./build/Makefile
 	@make -C build -j$(CPUS)
